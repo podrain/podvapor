@@ -1,3 +1,5 @@
+import layout from './layout.ts'
+
 export default async function() {
   const result = await fetch(Deno.env.get('PODCASTS_URL'))
   const text = await result.text()
@@ -21,9 +23,13 @@ export default async function() {
     `
   }).join()
 
-  return /* html */`<div class="mt-3">
-    <h1>My Podcasts</h1>
+  const content = /* html */`<div class="mt-3">
+  <h1>My Podcasts</h1>
 
-    ${ podcastList }
-  </div>`
+  ${ podcastList }
+</div>`
+
+  return layout({
+    content
+  })
 }

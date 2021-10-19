@@ -20,9 +20,7 @@ router
   ctx.response.body = await podcast(ctx.params.slug)
 })
 .get('/', async (ctx) => {
-  ctx.response.body = layout({
-    content: await home()
-  })
+  ctx.response.body = await home()
 })
 
 app.use(router.routes())
