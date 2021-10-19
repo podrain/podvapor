@@ -4,9 +4,9 @@ if (Deno.env.get('DENO_DEPLOYMENT_ID') === undefined) {
   await import('https://deno.land/x/dotenv@v3.0.0/load.ts')
 }
 
-import layout from './views/layout.ts'
 import home from './views/home.js'
 import podcast from './views/podcast.js'
+import episode from './views/episode.js'
 
 const app = new Application()
 const router = new Router()
@@ -16,6 +16,9 @@ app.addEventListener('error', (evt) => {
 })
 
 router
+.get('/:slug/:episodeID', async (ctx) => {
+  ctx.response.body = await episode(ctx.params.slug, ctx.params.episodeID)
+})
 .get('/:slug', async (ctx) => {
   ctx.response.body = await podcast(ctx.params.slug)
 })
