@@ -49,7 +49,7 @@ export default async function(slug) {
                 />
                 <itunes:duration>${ ep.duration }</itunes:duration>
                 <pubDate>${ convertTimeForFeed(ep.published) }</pubDate>
-                <link>${ Deno.env.get('DOMAIN') }/${ podcast.slug }/${ ep.guid }</link>
+                <link>${ Deno.env.get('DOMAIN') }/${ podcast.slug }/episode/${ ep.guid }</link>
               </item>
               `
             }).join() }

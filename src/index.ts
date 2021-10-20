@@ -21,7 +21,7 @@ router
   ctx.response.headers.set('Content-Type', 'application/xml')
   ctx.response.body = await feed(ctx.params.slug)
 })
-.get('/:slug/:episodeID', async (ctx) => {
+.get('/:slug/episode/:episodeID', async (ctx) => {
   ctx.response.body = await episode(ctx.params.slug, ctx.params.episodeID)
 })
 .get('/:slug', async (ctx) => {
