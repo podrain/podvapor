@@ -7,6 +7,7 @@ if (Deno.env.get('DENO_DEPLOYMENT_ID') === undefined) {
 import home from './views/home.js'
 import podcast from './views/podcast.js'
 import episode from './views/episode.js'
+import feed from './views/feed.js'
 
 const app = new Application()
 const router = new Router()
@@ -16,6 +17,10 @@ app.addEventListener('error', (evt) => {
 })
 
 router
+.get('/:slug/feed', async (ctx) => {
+  ctx.response.headers.set('Content-Type', 'application/xml')
+  ctx.response.body = await feed(ctx.params.slug)
+})
 .get('/:slug/:episodeID', async (ctx) => {
   ctx.response.body = await episode(ctx.params.slug, ctx.params.episodeID)
 })

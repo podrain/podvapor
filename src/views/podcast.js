@@ -1,9 +1,8 @@
 import layout from './layout.ts'
+import { getPodcasts } from '../Helpers.ts'
 
 export default async function(slug) {
-  const result = await fetch(Deno.env.get('PODCASTS_URL'))
-  const text = await result.text()
-  const podcasts = JSON.parse(text)
+  const podcasts = await getPodcasts()
 
   const podcast = podcasts.filter(pc => pc.slug == slug)[0]
 
@@ -14,7 +13,7 @@ export default async function(slug) {
         ${ ep.title }
         </a>
         <audio id="player" controls>
-          <source src="${ ep.audio.src }">
+          <source src="${ ep.audio.url }">
         </audio>
       </div>
     `

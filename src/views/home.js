@@ -1,9 +1,8 @@
 import layout from './layout.ts'
+import { getPodcasts } from '../Helpers.ts'
 
 export default async function() {
-  const result = await fetch(Deno.env.get('PODCASTS_URL'))
-  const text = await result.text()
-  const podcasts = JSON.parse(text)
+  const podcasts = await getPodcasts()
 
   const podcastList = podcasts.map(pc => {
     return /* html */`
