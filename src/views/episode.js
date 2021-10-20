@@ -30,8 +30,8 @@ export default async function(podcastSlug, episodeID) {
   const content = /*html*/`
   <div class="mt-3">
     <a href="/${ podcast.slug }">Back to podcast</a>
-    <h1>${ episode.title }</h1>
-    <p>${ episode.description }</p>
+    <h1 class="mt-3">${ episode.title }</h1>
+    <p class="mt-3">${ episode.description }</p>
 
     <audio id="player" controls>
       <source src="${ episode.audio.url }">
@@ -40,6 +40,7 @@ export default async function(podcastSlug, episodeID) {
   `
 
   const final = layout({
+    title: podcast.title + ' | ' + episode.title,
     head,
     foot,
     content

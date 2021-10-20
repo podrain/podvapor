@@ -14,7 +14,8 @@ export default async function() {
             </div>
             <div class="ms-3">
               <h5 class="card-title"><a href="/${ pc.slug }">${ pc.title }</a></h5>
-              <p class="card-text">${ pc.description }</p>
+              <a class="d-inline-block mt-2" href="/${ pc.slug }/feed">RSS Feed</a>
+              <p class="card-text mt-3">${ pc.description }</p>
             </div>
           </div>
         </div>
@@ -23,7 +24,7 @@ export default async function() {
   }).join()
 
   const content = /* html */`<div class="mt-3">
-  <h1>My Podcasts</h1>
+  <h1>${ Deno.env.get('OWNER') }'s Podcasts</h1>
 
   ${ podcastList }
 </div>`

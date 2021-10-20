@@ -9,9 +9,7 @@ export default async function(slug) {
   const episodeList = podcast.episodes.map(ep => {
     return /* html */`
       <div>
-        <a href="/${ podcast.slug }/episode/${ ep.guid }">
-        ${ ep.title }
-        </a>
+        <h4><a href="/${ podcast.slug }/episode/${ ep.guid }">${ ep.title }</a></h4>
         <audio id="player" controls>
           <source src="${ ep.audio.url }">
         </audio>
@@ -40,14 +38,23 @@ export default async function(slug) {
   `
 
   const final = layout({
+    title: podcast.title,
     head,
     foot,
     content: /* html */`
     <div class="mt-3">
-      <a href="/">Back to all podcasts</a>
-      <h1 class="mt-3">${ podcast.title }</h1>
-      <a href="/${ podcast.slug }/feed">RSS Feed</a>
-      <p class="mt-3">${ podcast.description }</p>
+      <div class="d-flex">
+        <div>
+          <img style="width: 10rem;" src="${ podcast.cover_image_url }" />
+        </div>
+        <div class="ms-3">
+          <a href="/">Back to all podcasts</a>
+          <h1 class="mt-3">${ podcast.title }</h1>
+          <a href="/${ podcast.slug }/feed">RSS Feed</a>
+          <p class="mt-3">${ podcast.description }</p>
+        </div>
+      </div>
+      <h2>Episodes</h2>
       ${ episodeList }
     </div>
     `
