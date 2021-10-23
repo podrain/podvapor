@@ -1,5 +1,5 @@
 import layout from './layout.ts'
-import { getPodcasts } from '../Helpers.ts'
+import { getPodcasts, convertDateForWeb } from '../Helpers.ts'
 
 export default async function(slug) {
   const podcasts = await getPodcasts()
@@ -11,6 +11,7 @@ export default async function(slug) {
       <div class="card">
         <div class="card-body">
           <h4>${ ep.title }</h4>
+          <p class="text-secondary"><em>${ convertDateForWeb(ep.published) }</em></p>
           <p class="mt-3">${ ep.description }</p>
           <a href="/${ podcast.slug }/episode/${ ep.guid }">Read more</a>
           <div class="mt-3">
