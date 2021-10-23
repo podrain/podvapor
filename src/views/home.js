@@ -15,6 +15,7 @@ export default async function() {
             <div class="ms-3">
               <h5 class="card-title"><a href="/${ pc.slug }">${ pc.title }</a></h5>
               <a class="d-inline-block mt-2" href="/${ pc.slug }/feed">RSS Feed</a>
+              ${ pc.links.map((lk, index) => `${ index == 0 ? '<br>' : '' }<a href="${ lk.link }">${ lk.name }</a>`).join('<br>') }
               <p class="card-text mt-3">${ pc.description }</p>
             </div>
           </div>
