@@ -8,11 +8,17 @@ export default async function(slug) {
 
   const episodeList = podcast.episodes.map(ep => {
     return /* html */`
-      <div>
-        <h4><a href="/${ podcast.slug }/episode/${ ep.guid }">${ ep.title }</a></h4>
-        <audio id="player" controls>
-          <source src="${ ep.audio.url }">
-        </audio>
+      <div class="card">
+        <div class="card-body">
+          <h4>${ ep.title }</h4>
+          <p class="mt-3">${ ep.description }</p>
+          <a href="/${ podcast.slug }/episode/${ ep.guid }">Read more</a>
+          <div class="mt-3">
+            <audio id="player" controls>
+              <source src="${ ep.audio.url }">
+            </audio>
+          </div>
+        </div>
       </div>
     `
   })
@@ -54,7 +60,7 @@ export default async function(slug) {
           <p class="mt-3">${ podcast.description }</p>
         </div>
       </div>
-      <h2>Episodes</h2>
+      <h2 class="mb-3">Episodes</h2>
       ${ episodeList }
     </div>
     `

@@ -31,11 +31,12 @@ export default async function(podcastSlug, episodeID) {
   <div class="mt-3">
     <a href="/${ podcast.slug }">Back to podcast</a>
     <h1 class="mt-3">${ episode.title }</h1>
-    <p class="mt-3">${ episode.description }</p>
-
-    <audio id="player" controls>
-      <source src="${ episode.audio.url }">
-    </audio>
+    <div class="mt-3">
+      <audio id="player" controls>
+        <source src="${ episode.audio.url }">
+      </audio>
+    </div>
+    <div class="mt-3">${ episode.notes }</div>
   </div>
   `
 
