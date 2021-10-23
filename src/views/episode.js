@@ -1,5 +1,5 @@
 import layout from './layout.ts'
-import { getPodcasts } from '../Helpers.ts'
+import { getPodcasts, convertDateForWeb } from '../Helpers.ts'
 
 export default async function(podcastSlug, episodeID) {
   const podcasts = await getPodcasts()
@@ -31,6 +31,7 @@ export default async function(podcastSlug, episodeID) {
   <div class="mt-3">
     <a href="/${ podcast.slug }">Back to podcast</a>
     <h1 class="mt-3">${ episode.title }</h1>
+    <h5 class="text-secondary"><em>${ convertDateForWeb(episode.published) }</em></h5>
     <div class="mt-3">
       <audio id="player" controls>
         <source src="${ episode.audio.url }">
