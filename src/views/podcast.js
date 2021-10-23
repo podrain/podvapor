@@ -57,6 +57,7 @@ export default async function(slug) {
           <a href="/">Back to all podcasts</a>
           <h1 class="mt-3">${ podcast.title }</h1>
           <a href="/${ podcast.slug }/feed">RSS Feed</a>
+          ${ podcast.links.map((lk, index) => `${ index == 0 ? '<br>' : '' }<a href="${ lk.link }">${ lk.name }</a>`).join('<br>') }
           <p class="mt-3">${ podcast.description }</p>
         </div>
       </div>
