@@ -25,6 +25,7 @@ export default async function(slug) {
   })
 
   const head = /* html */`
+    <link rel="alternate" href="${ Deno.env.get('DOMAIN') }/${ podcast.slug }/feed" type="application/rss+xml" title="${ podcast.title }">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
     <!-- Scripts -->
     <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
