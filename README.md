@@ -1,2 +1,2 @@
 # Podvapor
-## To put audio in the cloud, it needs to become vapor first.
+## Host podcasts using Deno (CLI or Deploy). Instructions coming soon.
