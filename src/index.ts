@@ -17,6 +17,10 @@ app.addEventListener('error', (evt) => {
 })
 
 router
+.get('/robots.txt', (ctx) => {
+  ctx.response.body = `User-agent: *
+Disallow:`
+})
 .get('/:slug/feed', async (ctx) => {
   ctx.response.headers.set('Content-Type', 'application/xml')
   ctx.response.body = await feed(ctx.params.slug)
