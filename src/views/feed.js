@@ -16,7 +16,7 @@ export default async function(slug) {
 
             ${ podcast.categories.map(ct => {
               return `<itunes:category text="${ ct }" />`
-            }).join() }
+            }).join('') }
 
             <itunes:owner>
                 <itunes:name>${ podcast.owner.name }</itunes:name>
@@ -52,7 +52,7 @@ export default async function(slug) {
                 <link>${ Deno.env.get('DOMAIN') }/${ podcast.slug }/episode/${ ep.guid }</link>
               </item>
               `
-            }).join() }
+            }).join('') }
         </channel>
     </rss>
   `

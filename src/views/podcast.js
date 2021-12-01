@@ -15,14 +15,14 @@ export default async function(slug) {
           <p class="mt-3">${ ep.description }</p>
           <a href="/${ podcast.slug }/episode/${ ep.guid }">Read more</a>
           <div class="mt-3">
-            <audio id="player" controls>
+            <audio class="player" controls>
               <source src="${ ep.audio.url }">
             </audio>
           </div>
         </div>
       </div>
     `
-  })
+  }).join('<div class="mt-3"></div>')
 
   const head = /* html */`
     <link rel="alternate" href="${ Deno.env.get('DOMAIN') }/${ podcast.slug }/feed" type="application/rss+xml" title="${ podcast.title }">
@@ -41,7 +41,7 @@ export default async function(slug) {
 
   const foot = `
     <script>
-      const player = new Plyr('#player');
+      const player = Plyr.setup('.player');
     </script>
   `
 
