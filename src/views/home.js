@@ -25,7 +25,7 @@ export default async function() {
   }).join('<div class="mt-3"></div>')
 
   const content = /* html */`<div class="mt-3">
-  <h1>${ Deno.env.get('OWNER') }'s Podcasts</h1>
+  <h1>${ Deno.env.get('SITE_NAME') }</h1>
 
   ${ podcastList }
 </div>`
