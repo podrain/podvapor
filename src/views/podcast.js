@@ -1,12 +1,12 @@
 import layout from './layout.ts'
-import { getPodcasts, convertDateForWeb } from '../Helpers.ts'
+import { getPodcasts, convertDateForWeb, sortByDateDescending } from '../Helpers.ts'
 
 export default async function(slug) {
   const podcasts = await getPodcasts()
 
   const podcast = podcasts.filter(pc => pc.slug == slug)[0]
 
-  const episodeList = podcast.episodes.map(ep => {
+  const episodeList = podcast.episodes.sort(sortByDateDescending).map(ep => {
     return /* html */`
       <div class="card">
         <div class="card-body">

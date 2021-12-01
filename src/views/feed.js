@@ -1,4 +1,4 @@
-import { getPodcasts, convertTimeForFeed } from '../Helpers.ts'
+import { getPodcasts, convertTimeForFeed, sortByDateDescending } from '../Helpers.ts'
 
 export default async function(slug) {
   const podcasts = await getPodcasts()
@@ -27,7 +27,7 @@ export default async function(slug) {
 
             <itunes:explicit>${ podcast?.explicit ? 'true' : 'false' }</itunes:explicit>
             <copyright>${ podcast.copyright }</copyright>
-            ${ podcast.episodes.map(ep => {
+            ${ podcast.episodes.sort(sortByDateDescending).map(ep => {
               return `
               <item>
                 <guid isPermalink="false">${ ep.guid }</guid>

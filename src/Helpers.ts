@@ -24,3 +24,15 @@ export function convertDateForWeb(time : string) {
   const newTime = DateTime.fromSQL(time).setZone('UTC', { keepLocalTime: true }).toLocaleString(DateTime.DATE_MED)
   return newTime
 }
+
+export function sortByDateDescending(a : any, b : any) {
+  if (a.published > b.published) {
+    return -1
+  }
+
+  if (a.published < b.published) {
+    return 1
+  }
+
+  return 0
+}
