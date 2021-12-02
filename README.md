@@ -1,8 +1,8 @@
 # Podvapor
 
-Podvapor is a tool for hosting your podcast on the Deno Deploy™ serverless platform. The goal is to give podcasters the benefit of full control of their podcast feed, without the drawbacks of dealing with maintaining the feed themselves. 
+Podvapor is a tool for hosting your podcast on the Deno Deploy™ serverless platform. The goal is to give podcasters the benefit of full control of their podcast feed, without many of the drawbacks of maintaining the feed themselves. 
 
-However, it's also possible to host it on your own infrastructure.
+However, it's also possible to host it on your own infrastructure. None of the code is proprietary and can be hosting on the Deno CLI platform.
 
 ## Features
 - Serverless hosting
@@ -13,7 +13,7 @@ However, it's also possible to host it on your own infrastructure.
 
 - JSON file with podcast data, accessible via URL
 - Episode audio files with length, filetype, and duration metadata
-- Deno Deploy environment variables
+- Deno Deploy™ environment variables
 
 For now, Podvapor only provides hosting for your podcast feed. It doesn't create or host your audio files, or their associated metadata required by podcast feeds. That is still up to you. There may be more guidance on how to do this in the future.
 
@@ -87,23 +87,29 @@ Get the URL for that audio file as well as the audio metadata and put them in th
 
 Once you have your audio files at publicly-accessible URLs, as well as your JSON file, you'll also need to come up with a name for your podcast and determine the URL it will be hosted at.
 
-In Deno Deploy, create these ENVIRONMENT variables and fill in the appropriate values:
+In Deno Deploy™, create these ENVIRONMENT variables and fill in the appropriate values:
 
 - `ENVIRONMENT` — `production`
-- `DOMAIN` — The domain the of the site. This can be your own or one created [automatically by Deno Deploy](https://deno.com/deploy/docs/projects#domains).
+- `DOMAIN` — The domain the of the site. This can be your own or one created [automatically by Deno Deploy™](https://deno.com/deploy/docs/projects#domains).
 - `PODCASTS_URL` — The public URL for the the JSON file you created earlier. This is the "database" for the app, and will be fetched and parsed as raw text. When you want to add episodes or otherwise update your feed, you'll just have to edit this file. I would also recommend storing this in an S3-compatible storage endpoint, but you could even just store it as a Github Gist!
-- `SITE_NAME` — The name for all your podcasts. This is like your "umbrella" name for all your podcasts.
+- `SITE_NAME` — The name for all your podcasts. This is like your "umbrella" name for all your podcasts. If you have only one podcast, this could be the name of your podcast.
 
 ## Costs
 
-Since this project will be deployed directly on Deno Deploy with audio files hosted presumably hosted somewhere with an S3 endpoint, you will pay for Deno Deploy usage and your file hosting services directly. At this point, it will realistically cost about $5/month total for most hosts, since Deno Deploy is still free since it's in Beta and DigitalOcean Spaces and others charge about $5/month to host files.
+Since this project will be deployed directly on Deno Deploy™ with audio files hosted presumably hosted somewhere with an S3 endpoint, you will pay for Deno Deploy™ usage and your file hosting services directly. At this point, it will realistically cost about $5/month total for most hosts, since Deno Deploy™ is still free since it's in Beta and DigitalOcean Spaces and others charge about $5/month to host files.
 
 No middleman fee for using this software :)
 
 ## Self-hosting
 
-This project should be easy to self-host, since Deno Deploy is just a subset of the Deno CLI (for the most part). Instructions coming soon.
+This project should be easy to self-host, since Deno Deploy™ is just a subset of the Deno CLI (for the most part). Instructions coming soon.
 
 ## Contributing
 
 This project is in extremely early stages, so I don't have a formal process for handling contributions. As the project grows, it may formalize it a bit more.
+
+## Example podcast
+
+Here is a podcast currently hosted with this software. (The show host is the author of this software)
+
+https://podcasts.sweeney.digital/devtales
