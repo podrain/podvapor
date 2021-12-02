@@ -4,6 +4,8 @@ Podvapor is a tool for hosting your podcast on the Deno Deploy™ serverless pla
 
 However, it's also possible to host it on your own infrastructure. None of the code is proprietary and can be hosting on the Deno CLI platform.
 
+[Deploy your podcast!](https://dash.deno.com/projects/podvapor/deploy)
+
 ## Features
 - Serverless hosting
 - No arbitrary limits on number of podcasts or episodes
