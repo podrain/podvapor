@@ -8,11 +8,11 @@ export default async function() {
     return /* html */`
       <div class="card">
         <div class="card-body">
-          <div class="d-flex">
-            <div>
-              <img style="width: 10rem;" src="${ pc.cover_image_url }" />
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <img class="w-100" src="${ pc.cover_image_url }" />
             </div>
-            <div class="ms-3">
+            <div class="podcast-content col-12 mt-3 col-md-9">
               <h5 class="card-title"><a href="/${ pc.slug }">${ pc.title }</a></h5>
               <a class="d-inline-block mt-2" href="/${ pc.slug }/feed">RSS Feed</a>
               ${ pc.links.map((lk, index) => `${ index == 0 ? '<br>' : '' }<a href="${ lk.link }">${ lk.name }</a>`).join('<br>') }
@@ -24,6 +24,14 @@ export default async function() {
     `
   }).join('<div class="mt-3"></div>')
 
+  const head = /* html */`<style>
+  @media (min-width: 768px) {
+    .podcast-content {
+      margin-top: 0 !important
+    }
+  }
+</style>`
+
   const content = /* html */`<div class="mt-3">
   <h1>${ Deno.env.get('SITE_NAME') }</h1>
 
@@ -31,6 +39,7 @@ export default async function() {
 </div>`
 
   return layout({
-    content
+    content,
+    head
   })
 }

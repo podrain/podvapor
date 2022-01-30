@@ -35,6 +35,12 @@ export default async function(slug) {
         .plyr--audio .plyr__controls {
             padding: 0;
         }
+
+        @media (min-width: 768px) {
+          .podcast-content {
+            margin-top: 0 !important
+          }
+        }
     </style>
   `
 
@@ -50,17 +56,17 @@ export default async function(slug) {
     foot,
     content: /* html */`
     <div class="mt-3">
-      <div class="d-flex">
-        <div>
-          <img style="width: 10rem;" src="${ podcast.cover_image_url }" />
+      <div class="row">
+        <div class="col-12 col-md-3">
+          <img class="w-100" src="${ podcast.cover_image_url }" />
         </div>
-        <div class="ms-3">
+        <div class="podcast-content col-12 mt-3 col-md-9">
           <a href="/">Back to all podcasts</a>
           <h1 class="mt-3">${ podcast.title }</h1>
           <a href="/${ podcast.slug }/feed">RSS Feed</a>
           ${ podcast.links.map((lk, index) => `${ index == 0 ? '<br>' : '' }<a href="${ lk.link }">${ lk.name }</a>`).join('<br>') }
-          <p class="mt-3">${ podcast.description }</p>
         </div>
+      <p class="mt-3">${ podcast.description }</p>
       </div>
       <h2 class="mb-3">Episodes</h2>
       ${ episodeList }
