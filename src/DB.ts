@@ -13,7 +13,7 @@ const db = new Client({
   tls: {
     enabled: Deno.env.get('TLS_CERT_URL') ? true : false,
     caCertificates: [
-      await (await fetch(Deno.env.get('TLS_CERT_URL') as string)).text()
+      Deno.env.get('TLS_CERT_URL') ?? await (await fetch(Deno.env.get('TLS_CERT_URL') as string)).text()
     ],
   }
 })
