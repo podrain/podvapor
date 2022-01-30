@@ -1,19 +1,18 @@
 import layout from './layout.ts'
-import { getPodcasts, convertDateForWeb, sortByDateDescending } from '../Helpers.ts'
+import { getPodcasts, getPodcast, getEpisodes, convertDateForWeb, sortByDateDescending } from '../Helpers.ts'
 
 export default async function(slug) {
-  const podcasts = await getPodcasts()
+  const podcast = await getPodcast(slug)
+  const episodes = await getEpisodes(podcast.id)
 
-  const podcast = podcasts.filter(pc => pc.slug == slug)[0]
-
-  const episodeList = podcast.episodes.sort(sortByDateDescending).map(ep => {
+  const episodeList = episodes.sort(sortByDateDescending).map(ep => {
     return /* html */`
       <div class="card">
         <div class="card-body">
           <h4>${ ep.title }</h4>
           <p class="text-secondary"><em>${ convertDateForWeb(ep.published) }</em></p>
           <p class="mt-3">${ ep.description }</p>
-          <a href="/${ podcast.slug }/episode/${ ep.guid }">Read more</a>
+          <a href="/${ podcast.slug }/episode/${ ep.id }">Read more</a>
           <div class="mt-3">
             <audio class="player" controls>
               <source src="${ ep.audio.url }">

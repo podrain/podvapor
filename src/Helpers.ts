@@ -1,18 +1,28 @@
 import { DateTime } from 'https://cdn.skypack.dev/luxon'
+import DB from './DB.ts'
 
 export async function getPodcasts() {
-  let podcasts = null
-
-  if (Deno.env.get('ENVIRONMENT') == 'local') {
-    const result = await Deno.readTextFile('./podcasts.json')
-    podcasts = JSON.parse(result)
-  } else {
-    const result = await fetch(Deno.env.get('PODCASTS_URL') as string)
-    const text = await result.text()
-    podcasts = JSON.parse(text)
-  }
-
+  const result = await DB.queryObject('select * from podcasts')
+  let podcasts = result.rows
   return podcasts
+}
+
+export async function getPodcast(slug : string) {
+  const result = (await DB.queryObject('select * from podcasts where slug = $1', [slug]))
+  const podcast = result.rows[0]
+  return podcast
+}
+
+export async function getEpisodes(podcastID : string) {
+  const result = (await DB.queryObject('select * from episodes where podcast_id = $1', [podcastID]))
+  const episodes = result.rows
+  return episodes
+}
+
+export async function getEpisode(episodeID : string) {
+  const result = (await DB.queryObject('select * from episodes where id = $1', [episodeID]))
+  const episode = result.rows[0]
+  return episode
 }
 
 export function convertTimeForFeed(time : string) {

@@ -1,5 +1,7 @@
 # Podvapor
 
+:warning: *This product is in alpha, and documentation is not complete. Use at your own risk.*
+
 Podvapor is a tool for hosting your podcast on the Deno Deploy™ serverless platform. The goal is to give podcasters the benefit of full control of their podcast feed, without many of the drawbacks of maintaining the feed themselves. 
 
 However, it's also possible to host it on your own infrastructure. None of the code is proprietary and can be hosting on the Deno CLI platform.
@@ -13,72 +15,49 @@ However, it's also possible to host it on your own infrastructure. None of the c
 
 ## Requirements
 
-- JSON file with podcast data, accessible via URL
+- CockroachDB database
 - Episode audio files with length, filetype, and duration metadata
 - Deno Deploy™ environment variables
 
 For now, Podvapor only provides hosting for your podcast feed. It doesn't create or host your audio files, or their associated metadata required by podcast feeds. That is still up to you. There may be more guidance on how to do this in the future.
 
-### JSON file
+### CockroachDB database
 
-Here is the formatting for a single podcast with a single episode. Fill in the values with the details of your podcasts and episodes. All these fields are required so that they show up in Apple, Spotify, and Google Podcast properly.
+This guidance is not complete, more directions will be added soon. In the meantime, here is the CockroachDB create table commands.
 
-Episodes will always be ordered by publish date, so their order doesn't matter in the `episodes` array.
+```sql
+# Create podcasts table
+create table podcasts (
+  id uuid default uuid_v4()::UUID primary key,
+  title string,
+  slug string,
+  description string,
+  cover_image_url string,
+  categories jsonb,
+  owner jsonb,
+  links jsonb,
+  author string,
+  copyright string
+)
 
-```json
-[
-  {
-    "title": "My Podcast",
-    "slug": "my-podcast",
-    "description": "Eye-catching description of my podcast!",
-    "cover_image_url": "https://example.com/cover_image.png",
-    "categories": [
-      "Technology"
-    ],
-    "owner": {
-      "name": "John Doe",
-      "email": "jdoe@example.com"
-    },
-    "links": [
-      {
-        "name": "Apple",
-        "link": "https://podcasts.apple.com/us/podcast/my-podcast/id1234567890"
-      },
-      {
-        "name": "Spotify",
-        "link": "https://open.spotify.com/show/1234567890abcdef"
-      },
-      {
-        "name": "Google Podcasts",
-        "link": "https://www.google.com/podcasts?feed=RaNd0m5tRiNg"
-      }
-    ],
-    "author": "John Doe",
-    "copyright": "©2021 J-Dizzle Productions",
-    "episodes": [
-      {
-        "guid": "something-random-and-unique",
-        "title": "Greatest Podcast Episode",
-        "description": "This is what will show up on most feeds as a short summary of what the episode is about, but it varies by reader.",
-        "notes": "<p>This can contain HTML, with links, etc. for longer show-notes.</p>",
-        "audio": {
-          "url": "https://s3-compatible-endpoint.com/episode.mp3",
-          "length": 54489448,
-          "type": "audio/mpeg"
-        },
-        "duration": 2265,
-        "published": "2021-11-30 06:00:00"
-      }
-    ]
-  }
-]
+# Create episodes table
+create table episodes (
+  id uuid default uuid_v4()::UUID primary key,
+  podcast_id uuid references podcasts (id) on delete cascade,
+  title string,
+  description string,
+  notes string,
+  audio jsonb,
+  duration int4,
+  published string
+)
 ```
 
 ### Episode audio files
 
 You can host your audio files anywhere. A great place to host large files like this would be on Amazon S3 or an S3-compatible endpoint such as DigitalOcean Spaces, Linode Object Storage, or Vultr object storage. Even better if they are behind a CDN!
 
-Get the URL for that audio file as well as the audio metadata and put them in the right spot in the JSON file. Here are the audio-specific attributes:
+Get the URL for that audio file as well as the audio metadata and put them in the right column in the `episodes` table. Here are the audio-specific attributes:
 
 - `audio.url` — web-accessible file URL
 - `audio.length` — file length (filesize in bytes, not duration)
@@ -87,13 +66,12 @@ Get the URL for that audio file as well as the audio metadata and put them in th
 
 ### Environment variables
 
-Once you have your audio files at publicly-accessible URLs, as well as your JSON file, you'll also need to come up with a name for your podcast and determine the URL it will be hosted at.
+Once you have your audio files at publicly-accessible URLs, as well as your DB set up, you'll also need to come up with a name for your podcast and determine the URL it will be hosted at.
 
 In Deno Deploy™, create these ENVIRONMENT variables and fill in the appropriate values:
 
 - `ENVIRONMENT` — `production`
 - `DOMAIN` — The domain the of the site. This can be your own or one created [automatically by Deno Deploy™](https://deno.com/deploy/docs/projects#domains).
-- `PODCASTS_URL` — The public URL for the the JSON file you created earlier. This is the "database" for the app, and will be fetched and parsed as raw text. When you want to add episodes or otherwise update your feed, you'll just have to edit this file. I would also recommend storing this in an S3-compatible storage endpoint, but you could even just store it as a Github Gist!
 - `SITE_NAME` — The name for all your podcasts. This is like your "umbrella" name for all your podcasts. If you have only one podcast, this could be the name of your podcast.
 
 ## Costs

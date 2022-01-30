@@ -4,6 +4,8 @@ if (Deno.env.get('DENO_DEPLOYMENT_ID') === undefined) {
   await import('https://deno.land/x/dotenv@v3.0.0/load.ts')
 }
 
+import DB from './DB.ts'
+
 import home from './views/home.js'
 import podcast from './views/podcast.js'
 import episode from './views/episode.js'
@@ -12,8 +14,16 @@ import feed from './views/feed.js'
 const app = new Application()
 const router = new Router()
 
-app.addEventListener('error', (evt) => {
-  console.log(evt.error)
+if (Deno.env.get('DEBUG')) {
+  app.addEventListener('error', (evt) => {
+    console.log(evt.error)
+  })
+}
+
+app.use(async (ctx, next) => {
+  await DB.connect()
+  await next()
+  await DB.end()
 })
 
 router
@@ -38,4 +48,4 @@ Disallow:`
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-await app.listen({ port: 8080 })
+await app.listen({ port: 3000 })

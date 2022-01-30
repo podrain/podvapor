@@ -1,8 +1,8 @@
-import { getPodcasts, convertTimeForFeed, sortByDateDescending } from '../Helpers.ts'
+import { getPodcasts, getPodcast, getEpisodes, convertTimeForFeed, sortByDateDescending } from '../Helpers.ts'
 
 export default async function(slug) {
-  const podcasts = await getPodcasts()
-  const podcast = podcasts.filter(pc => pc.slug == slug)[0]
+  const podcast = await getPodcast(slug)
+  const episodes = await getEpisodes(podcast.id)
 
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">
@@ -27,10 +27,10 @@ export default async function(slug) {
 
             <itunes:explicit>${ podcast?.explicit ? 'true' : 'false' }</itunes:explicit>
             <copyright>${ podcast.copyright }</copyright>
-            ${ podcast.episodes.sort(sortByDateDescending).map(ep => {
+            ${ episodes.sort(sortByDateDescending).map(ep => {
               return `
               <item>
-                <guid isPermalink="false">${ ep.guid }</guid>
+                <guid isPermalink="false">${ ep.id }</guid>
                 <title>${ ep.title }</title>
                 <itunes:title>${ ep.title }</itunes:title>
                 
@@ -49,7 +49,7 @@ export default async function(slug) {
                 />
                 <itunes:duration>${ ep.duration }</itunes:duration>
                 <pubDate>${ convertTimeForFeed(ep.published) }</pubDate>
-                <link>${ Deno.env.get('DOMAIN') }/${ podcast.slug }/episode/${ ep.guid }</link>
+                <link>${ Deno.env.get('DOMAIN') }/${ podcast.slug }/episode/${ ep.id }</link>
               </item>
               `
             }).join('') }
