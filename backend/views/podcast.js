@@ -1,5 +1,5 @@
 import layout from './layout.ts'
-import { getPodcast, getEpisodes, convertDateForWeb, sortByDateDescending } from '../Helpers.ts'
+import { getPodcast, getEpisodes, convertDateForWeb, sortByDateDescending } from '../helpers.ts'
 
 export default async function(slug) {
   const podcast = await getPodcast(slug)

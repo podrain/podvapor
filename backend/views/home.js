@@ -1,5 +1,5 @@
 import layout from './layout.ts'
-import { getPodcasts } from '../Helpers.ts'
+import { getPodcasts } from '../helpers.ts'
 
 export default async function() {
   const podcasts = await getPodcasts()

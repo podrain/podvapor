@@ -1,5 +1,5 @@
 import layout from './layout.ts'
-import { getPodcast, getEpisode, convertDateForWeb } from '../Helpers.ts'
+import { getPodcast, getEpisode, convertDateForWeb } from '../helpers.ts'
 
 export default async function(podcastSlug, episodeID) {
 

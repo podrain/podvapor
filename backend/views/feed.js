@@ -1,4 +1,4 @@
-import { getPodcast, getEpisodes, convertTimeForFeed, sortByDateDescending } from '../Helpers.ts'
+import { getPodcast, getEpisodes, convertTimeForFeed, sortByDateDescending } from '../helpers.ts'
 
 export default async function(slug) {
   const podcast = await getPodcast(slug)

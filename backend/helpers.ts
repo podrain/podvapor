@@ -1,5 +1,5 @@
 import { DateTime } from 'https://cdn.skypack.dev/luxon'
-import DB from './DB.ts'
+import DB from './db.ts'
 
 export async function getPodcasts() {
   const result = await DB.queryObject('select * from podcasts')
