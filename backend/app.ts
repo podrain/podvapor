@@ -46,5 +46,5 @@ Disallow:`
 app.use(adminRouter.routes(), adminRouter.allowedMethods())
 app.use(router.routes(), router.allowedMethods())
 
-app.listen({ port: 3000 })
+app.listen({ port: 3001 })
 console.log('server running')

@@ -4,7 +4,7 @@ import inertia from '../inertia.ts'
 const adminRoutes = new Router()
 .use(inertia.initMiddleware())
 .get('/', (ctx) => {
-  ctx.response.body = 'admin here'
+  ctx.state.inertia.render('dashboard', {})
 })
 
 const adminRouter = new Router().get('/admin', adminRoutes.routes(), adminRoutes.allowedMethods())
