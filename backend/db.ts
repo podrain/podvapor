@@ -1,8 +1,5 @@
 import { Client } from "https://deno.land/x/postgres@v0.15.0/mod.ts"
-
-if (Deno.env.get('DENO_DEPLOYMENT_ID') === undefined) {
-  await import('https://deno.land/x/dotenv@v3.0.0/load.ts')
-}
+import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
 
 const db = new Client({
   hostname: Deno.env.get('DB_HOST'),

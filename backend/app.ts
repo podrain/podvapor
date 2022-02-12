@@ -1,8 +1,5 @@
 import { Application, Router } from 'https://deno.land/x/oak@v10.2.0/mod.ts'
-
-if (Deno.env.get('DENO_DEPLOYMENT_ID') === undefined) {
-  await import('https://deno.land/x/dotenv@v3.0.0/load.ts')
-}
+import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
 
 import DB from './db.ts'
 
