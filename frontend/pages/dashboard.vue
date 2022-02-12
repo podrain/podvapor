@@ -5,3 +5,8 @@
 <script setup>
 
 </script>
+
+<script>
+import layout from '../shared/layout.vue'
+export default { layout }
+</script>
