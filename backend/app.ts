@@ -2,6 +2,7 @@ import { Application, Router } from 'https://deno.land/x/oak@v10.2.0/mod.ts'
 import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
 
 import DB from './db.ts'
+import adminRouter from './routes/admin.ts'
 
 import home from './views/home.js'
 import podcast from './views/podcast.js'
@@ -42,7 +43,8 @@ Disallow:`
   ctx.response.body = await home()
 })
 
-app.use(router.routes())
-app.use(router.allowedMethods())
+app.use(adminRouter.routes(), adminRouter.allowedMethods())
+app.use(router.routes(), router.allowedMethods())
 
-await app.listen({ port: 3000 })
+app.listen({ port: 3000 })
+console.log('server running')
