@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen justify-center items-center bg-teal-700 text-white">
+  <div class="flex h-screen justify-center items-center bg-gray-700 text-white">
     <form class="flex flex-col w-64" @submit.prevent="submit">
       <div class="flex flex-col">
         <label for="email">Email</label>
