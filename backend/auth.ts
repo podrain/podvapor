@@ -18,7 +18,7 @@ const authRoutes = new Router()
   .use(session.initMiddleware())
   .get('/login', inertia.initMiddleware(), async (ctx) => {
     if (await ctx.state.session.has('user_id')) {
-      ctx.response.redirect('/admin/dashboard')
+      ctx.response.redirect('/admin/podcasts')
     } else {
       ctx.state.inertia.render('login')
     }
@@ -34,7 +34,7 @@ const authRoutes = new Router()
 
     if (await bcrypt.compare(formParams.get('password'), user.password)) {
       await ctx.state.session.set('user_id', user.id)
-      ctx.response.redirect('/admin/dashboard')
+      ctx.response.redirect('/admin/podcasts')
     } else {
       await ctx.response.redirect('/admin/login')
     }

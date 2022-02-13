@@ -6,7 +6,7 @@ export {
 
 export {
   Inertia
-} from 'https://deno.land/x/oak_inertia@v0.4.2/mod.ts'
+} from 'https://deno.land/x/oak_inertia@v0.4.3/mod.ts'
 
 export {
   Session,
