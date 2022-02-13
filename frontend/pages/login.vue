@@ -11,7 +11,7 @@
         <input id="password" type="password" class="rounded p-2 text-black" v-model="form.password">
       </div>
       
-      <button class="bg-orange-500 hover:bg-orange-700 mt-4 rounded p-2" type="submit">Login</button>
+      <button class="bg-teal-600 hover:bg-teal-700 mt-4 rounded p-2" type="submit">Login</button>
     </form>
   </div>
 </template>
