@@ -4,7 +4,8 @@
   <div class="ml-3">
     <h1 class="text-3xl">{{ podcast.title }}</h1>
     <h2 class="text-xl mt-3 text-gray-400">Description</h2>
-    <p>{{ podcast.description }}</p>
+    <p class="mb-3">{{ podcast.description }}</p>
+    <Link :href="`/admin/podcasts/${podcast.slug}/newepisode`" class="pv-button">New Episode</Link>
   </div>
 </div>
 

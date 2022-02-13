@@ -17,6 +17,13 @@ const adminRoutes = new Router()
     episode
   })
 })
+.get('/podcasts/:slug/newepisode', async (ctx) => {
+  const podcast = await getPodcast(ctx.params.slug)
+
+  ctx.state.inertia.render('episode-create', {
+    podcast
+  })
+})
 .get('/podcasts/:slug', async (ctx) => {
   const podcast = await getPodcast(ctx.params.slug) as any
   const episodes = (await getEpisodes(podcast.id)).sort(sortByDateDescending)
