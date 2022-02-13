@@ -26,6 +26,9 @@ const adminRoutes = new Router()
     podcasts
   })
 })
+.get('/settings', async (ctx) => {
+  ctx.state.inertia.render('settings')
+})
 .get('/', async (ctx) => {
   ctx.response.redirect('/admin/podcasts')
 })

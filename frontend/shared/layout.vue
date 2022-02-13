@@ -1,12 +1,11 @@
 <template>
 <div class="flex h-screen bg-gray-700 text-white">
-  <nav class="flex flex-col min-w-[9rem] bg-gray-600">
-    <a class="p-3 hover:bg-gray-500" href="#">Podcasts</a>
-    <a class="p-3 hover:bg-gray-500" href="#">Create podcast</a>
-    <a class="p-3 hover:bg-gray-500" href="#">Settings</a>
+  <nav class="flex flex-col min-w-[12rem] bg-gray-600">
+    <Link class="p-3 hover:bg-gray-500" :class="{ 'bg-gray-500': $page.url === '/admin/podcasts' }" href="/admin/podcasts">Podcasts</Link>
+    <Link class="p-3 hover:bg-gray-500" :class="{ 'bg-gray-500': $page.url === '/admin/settings' }" href="/admin/settings">Settings</Link>
     <Link class="p-3 hover:bg-gray-500" method="post" href="/admin/logout">Logout</Link>
   </nav>
-  <div class="p-3 overflow-y-scroll">
+  <div class="p-3 w-full overflow-y-scroll">
     <slot />
   </div>
 </div>
