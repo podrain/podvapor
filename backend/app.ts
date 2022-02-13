@@ -3,6 +3,7 @@ import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
 
 import DB from './db.ts'
 import adminRouter from './routes/admin.ts'
+import { authRouter } from './auth.ts'
 
 import home from './views/home.js'
 import podcast from './views/podcast.js'
@@ -43,6 +44,7 @@ Disallow:`
   ctx.response.body = await home()
 })
 
+app.use(authRouter.routes(), authRouter.allowedMethods())
 app.use(adminRouter.routes(), adminRouter.allowedMethods())
 app.use(router.routes(), router.allowedMethods())
 
