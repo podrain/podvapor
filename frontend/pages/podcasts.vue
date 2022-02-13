@@ -4,7 +4,7 @@
 <div class="mt-4 flex" v-for="pc in podcasts">
   <img :src="pc.cover_image_url" alt="" class="w-48">
   <div class="ml-3">
-    <h2 class="text-2xl"><Link :href="`/admin/podcasts/${pc.slug}`" class="text-teal-300">{{ pc.title }}</Link></h2>
+    <h2 class="text-2xl"><Link :href="`/admin/podcasts/${pc.slug}`" class="text-teal-200">{{ pc.title }}</Link></h2>
     <p class="mt-3">{{ pc.description }}</p>
   </div>
 </div>

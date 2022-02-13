@@ -10,7 +10,7 @@ module.exports = {
             color: theme('colors.white'),
 
             a: {
-              color: theme('colors.teal.300')
+              color: theme('colors.teal.200')
             }
           },
         },
