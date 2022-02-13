@@ -1,4 +1,4 @@
-import { Application, Router } from 'https://deno.land/x/oak@v10.2.0/mod.ts'
+import { Application, Router } from './deps.ts'
 import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
 
 import DB from './db.ts'

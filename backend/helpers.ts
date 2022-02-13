@@ -25,6 +25,12 @@ export async function getEpisode(episodeID : string) {
   return episode
 }
 
+export async function getUserByEmail(email : string) {
+  const result = (await DB.queryObject('select * from users where email = $1', [email]))
+  const user = result.rows[0]
+  return user
+}
+
 export function convertTimeForFeed(time : string) {
   const newTime = DateTime.fromSQL(time).setZone('UTC', { keepLocalTime: true }).toRFC2822()
   return newTime
@@ -45,4 +51,39 @@ export function sortByDateDescending(a : any, b : any) {
   }
 
   return 0
+}
+
+export async function parseFormParams(ctx : any) {
+  const params = new Map
+
+  if (ctx.request.hasBody) {
+
+    const requestBody = ctx.request.body()
+
+    switch(requestBody.type) {
+      case 'json':
+        const jsonPayload = await requestBody.value
+
+        for (const prop in jsonPayload) {
+          params.set(prop, jsonPayload[prop])
+        }
+        break;
+      case 'form':
+        const formPayload = await requestBody.value
+        formPayload.forEach((value, key) => {
+          params.set(key, value)
+        })
+        break;
+      case 'form-data':
+        const formDataPayload = requestBody.value
+        const formData = await formDataPayload.read()
+        const fields = formData.fields
+
+        for (const prop in fields) {
+          params.set(prop, fields[prop])
+        }
+    }
+  }
+
+  return params
 }
