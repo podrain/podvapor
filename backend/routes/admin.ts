@@ -4,8 +4,12 @@ import session from '../session.ts'
 import { isAuthenticated } from '../auth.ts'
 
 const adminRoutes = new Router()
-.use(inertia.initMiddleware(), session.initMiddleware())
-.get('/dashboard', isAuthenticated(), async (ctx) => {
+.use(
+  inertia.initMiddleware(), 
+  session.initMiddleware(), 
+  isAuthenticated()
+)
+.get('/dashboard', async (ctx) => {
   ctx.state.inertia.render('dashboard', {
     user_id: await ctx.state.session.get('user_id')
   })

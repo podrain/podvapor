@@ -1,4 +1,4 @@
-import { Inertia } from 'https://deno.land/x/oak_inertia@v0.4.1/mod.ts'
+import { Inertia } from './deps.ts'
 
 export default new Inertia(`<!DOCTYPE html>
 <html lang="en">

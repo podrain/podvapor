@@ -30,7 +30,7 @@ const authRoutes = new Router()
   .post('/login', async (ctx) => {
     const formParams = await parseFormParams(ctx)
 
-    const user = await getUserByEmail(formParams.get('email'))
+    const user = await getUserByEmail(formParams.get('email')) as any
 
     if (await bcrypt.compare(formParams.get('password'), user.password)) {
       await ctx.state.session.set('user_id', user.id)

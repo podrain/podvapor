@@ -70,7 +70,7 @@ export async function parseFormParams(ctx : any) {
         break;
       case 'form':
         const formPayload = await requestBody.value
-        formPayload.forEach((value, key) => {
+        formPayload.forEach((value : any, key : any) => {
           params.set(key, value)
         })
         break;
