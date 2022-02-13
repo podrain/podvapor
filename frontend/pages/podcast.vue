@@ -9,7 +9,7 @@
 </div>
 
 <div class="mt-3 bg-gray-600 p-3 rounded" v-for="ep in episodes">
-  <h2 class="text-xl">{{ ep.title }}</h2>
+  <h2 class="text-xl"><Link :href="`/admin/episodes/${ep.id}`" class="text-teal-300">{{ ep.title }}</Link></h2>
   <audio :src="ep.audio.url" controls class="mt-2"></audio>
   <p class="mt-2 italic">{{ ep.description }}</p>
 </div>
@@ -17,6 +17,7 @@
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/inertia-vue3'
 const props = defineProps({
   podcast: Object,
   episodes: Array,

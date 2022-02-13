@@ -2,7 +2,7 @@ import { Router } from '../deps.ts'
 import inertia from '../inertia.ts'
 import session from '../session.ts'
 import { isAuthenticated } from '../auth.ts'
-import { getPodcasts, getPodcast, getEpisodes, sortByDateDescending } from '../helpers.ts'
+import { getPodcasts, getPodcast, getEpisodes, sortByDateDescending, getEpisode } from '../helpers.ts'
 
 const adminRoutes = new Router()
 .use(
@@ -10,6 +10,13 @@ const adminRoutes = new Router()
   session.initMiddleware(), 
   isAuthenticated()
 )
+.get('/episodes/:id', async (ctx) => {
+  const episode = await getEpisode(ctx.params.id)
+
+  ctx.state.inertia.render('episode', {
+    episode
+  })
+})
 .get('/podcasts/:slug', async (ctx) => {
   const podcast = await getPodcast(ctx.params.slug) as any
   const episodes = (await getEpisodes(podcast.id)).sort(sortByDateDescending)

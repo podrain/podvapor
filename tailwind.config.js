@@ -3,7 +3,21 @@ module.exports = {
     "./frontend/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme('colors.white'),
+
+            a: {
+              color: theme('colors.teal.300')
+            }
+          },
+        },
+      }),
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
