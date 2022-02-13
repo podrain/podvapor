@@ -1,4 +1,5 @@
 <template>
+<Link href="/admin/podcasts" class="text-teal-200">Back to podcasts</Link>
 <div class="mt-4 flex">
   <img :src="podcast.cover_image_url" alt="" class="w-48">
   <div class="ml-3">

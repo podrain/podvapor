@@ -1,4 +1,5 @@
 <template>
+<Link class="text-teal-200" :href="`/admin/podcasts/${podcast.slug}`">Back to podcast</Link>
 <h1 class="text-3xl">New episode for {{ podcast.title }}</h1>
 
 <div class="flex flex-col">
@@ -88,7 +89,6 @@ onMounted(() => {
 
 const setAudioFile = (e) => {
   audioFile.value = e.target.files[0]
-  console.log(audioFile.value)
 }
 
 const submitEpisode = () => {

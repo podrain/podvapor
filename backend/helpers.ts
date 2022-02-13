@@ -13,6 +13,12 @@ export async function getPodcast(slug : string) {
   return podcast
 }
 
+export async function getPodcastById(id : string) {
+  const result = (await DB.queryObject('select * from podcasts where id = $1', [id]))
+  const podcast = result.rows[0]
+  return podcast
+}
+
 export async function getEpisodes(podcastID : string) {
   const result = (await DB.queryObject('select * from episodes where podcast_id = $1', [podcastID]))
   const episodes = result.rows
