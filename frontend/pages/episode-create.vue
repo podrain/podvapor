@@ -69,6 +69,9 @@ import { defineProps, onMounted, reactive, ref } from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import { v4 as uuidv4 } from 'uuid'
+import { DateTime } from 'luxon'
+import axios from 'axios'
 
 const props = defineProps({
   podcast: Object
@@ -91,8 +94,32 @@ const setAudioFile = (e) => {
   audioFile.value = e.target.files[0]
 }
 
-const submitEpisode = () => {
-  
+const submitEpisode = async () => {
+  const uuid = uuidv4()
+  const now = DateTime.now()
+  const newFilename = uuid + '.mp3'
+
+  const uploadUrlResponse = await axios.get('/admin/presigned-upload-url/'+newFilename)
+  const uploadURL = uploadUrlResponse.data
+  console.log(uploadURL)
+
+  const audioArrayBuffer = await audioFile.value.arrayBuffer()
+  console.log(audioArrayBuffer)
+
+  await axios.put(uploadURL, audioArrayBuffer, {
+    headers: {
+      'Content-Type': 'audio/mpeg',
+      'x-amz-acl': 'public-read'
+    },
+
+    onUploadProgress: (progressEvent) => {
+      const percentCompleted = (progressEvent.loaded * 100) / progressEvent.total
+
+      console.log(percentCompleted)
+    }
+  })
+
+  console.log('file uploaded')
 }
 </script>
 
