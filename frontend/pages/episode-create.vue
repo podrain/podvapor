@@ -67,6 +67,7 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
+import { Inertia } from '@inertiajs/inertia'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { v4 as uuidv4 } from 'uuid'
@@ -102,10 +103,8 @@ const submitEpisode = async () => {
 
   const uploadUrlResponse = await axios.get('/admin/presigned-upload-url/'+newFilename)
   const uploadURL = uploadUrlResponse.data
-  console.log(uploadURL)
 
   const audioArrayBuffer = await audioFile.value.arrayBuffer()
-  console.log(audioArrayBuffer)
 
   // ID3 tags
 
@@ -127,6 +126,8 @@ const submitEpisode = async () => {
   
   writer.addTag()
 
+  const audioFileSize = writer.arrayBuffer.byteLength
+
   await axios.put(uploadURL, writer.arrayBuffer, {
     headers: {
       'Content-Type': 'audio/mpeg',
@@ -140,7 +141,25 @@ const submitEpisode = async () => {
     }
   })
 
-  console.log('file uploaded')
+  const cbAudioContext = window.AudioContext || window.webkitAudioContext
+  const audioContext = new cbAudioContext()
+
+  const audioData = await audioContext.decodeAudioData(writer.arrayBuffer)
+
+  Inertia.post('/admin/podcasts/create', {
+    id: uuid,
+    title: form.title,
+    description: form.description,
+    notes: form.notes,
+    audio: {
+      length: audioFileSize,
+      type: 'audio/mpeg',
+      url: uploadURL.split('?')[0]
+    },
+    duration: Math.ceil(audioData.duration),
+    published: now.toFormat('yyyy-LL-dd HH:mm:ss'),
+    podcast_id: props.podcast.id
+  })
 }
 </script>
 

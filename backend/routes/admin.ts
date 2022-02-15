@@ -2,8 +2,9 @@ import { Router } from '../deps.ts'
 import inertia from '../inertia.ts'
 import session from '../session.ts'
 import { isAuthenticated } from '../auth.ts'
-import { getPodcasts, getPodcast, getPodcastById, getEpisodes, sortByDateDescending, getEpisode } from '../helpers.ts'
+import { getPodcasts, getPodcast, getPodcastById, getEpisodes, sortByDateDescending, getEpisode, parseFormParams } from '../helpers.ts'
 import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/add-custom-endpoint/mod.ts'
+import DB from '../db.ts'
  
 const adminRoutes = new Router()
 .use(
@@ -39,6 +40,23 @@ const adminRoutes = new Router()
   ctx.state.inertia.render('episode-create', {
     podcast
   })
+})
+.post('/podcasts/create', async (ctx) => {
+  const formParams = await parseFormParams(ctx)
+  const podcast = await getPodcastById(formParams.podcast_id) as any
+
+  await DB.queryArray(`insert into episodes (id, title, description, notes, audio, duration, published, podcast_id) values ($1, $2, $3, $4, $5, $6, $7, $8)`, [
+    formParams.id,
+    formParams.title,
+    formParams.description,
+    formParams.notes,
+    formParams.audio,
+    formParams.duration,
+    formParams.published,
+    formParams.podcast_id
+  ])
+
+  ctx.response.redirect('/admin/podcasts/'+podcast.slug)
 })
 .get('/podcasts/:slug', async (ctx) => {
   const podcast = await getPodcast(ctx.params.slug) as any
