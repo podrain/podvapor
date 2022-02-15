@@ -2,7 +2,7 @@ import { Router } from '../deps.ts'
 import inertia from '../inertia.ts'
 import session from '../session.ts'
 import { isAuthenticated } from '../auth.ts'
-import { getPodcasts, getPodcast, getPodcastById, getEpisodes, sortByDateDescending, getEpisode, parseFormParams } from '../helpers.ts'
+import { getPodcasts, getPodcast, getPodcastById, getEpisodes, sortByDateDescending, getEpisode, parseFormParams, convertDateForWeb } from '../helpers.ts'
 import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/add-custom-endpoint/mod.ts'
 import DB from '../db.ts'
  
@@ -61,6 +61,11 @@ const adminRoutes = new Router()
 .get('/podcasts/:slug', async (ctx) => {
   const podcast = await getPodcast(ctx.params.slug) as any
   const episodes = (await getEpisodes(podcast.id)).sort(sortByDateDescending)
+
+  const episodesModified = episodes.map((ep : any) => {
+    ep.published = convertDateForWeb(ep.published)
+    return ep
+  })
 
   ctx.state.inertia.render('podcast', {
     podcast,

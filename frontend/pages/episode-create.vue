@@ -1,18 +1,18 @@
 <template>
 <Link class="text-teal-200" :href="`/admin/podcasts/${podcast.slug}`">Back to podcast</Link>
-<h1 class="text-3xl">New episode for {{ podcast.title }}</h1>
+<h1 class="text-3xl mt-4">New episode for {{ podcast.title }}</h1>
 
-<div class="flex flex-col">
+<div class="mt-4 flex flex-col">
   <label for="form-title">Title</label>
   <input ref="formTitle" id="form-title" type="text" class="rounded p-2 text-black" v-model="form.title">
 </div>
 
-<div class="flex flex-col mt-2">
+<div class="flex flex-col mt-6">
   <label for="password">Description</label>
   <textarea id="password" type="password" class="rounded p-2 text-black" v-model="form.description"></textarea>
 </div>
 
-<div class="mt-4">
+<div class="mt-6">
   <span>Notes (HTML)</span>
   <QuillEditor 
     v-model:content="form.notes"
@@ -20,9 +20,9 @@
   />
 </div>
 
-<div class="mt-3">
+<div class="mt-6">
   <label for="form-audio">Audio file</label>
-  <div class="mt-1">
+  <div class="py-3">
     <input id="form-audio" type="file" @change="setAudioFile" />
   </div>
 </div>

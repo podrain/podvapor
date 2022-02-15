@@ -5,7 +5,7 @@
     <Link class="p-3 hover:bg-gray-500" :class="{ 'bg-gray-500': $page.url === '/admin/settings' }" href="/admin/settings">Settings</Link>
     <Link class="p-3 hover:bg-gray-500" method="post" href="/admin/logout">Logout</Link>
   </nav>
-  <div class="p-3 w-full overflow-y-scroll">
+  <div class="p-6 w-full overflow-y-scroll">
     <slot />
   </div>
 </div>
