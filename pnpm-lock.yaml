@@ -9,6 +9,7 @@ specifiers:
   '@vueup/vue-quill': ^1.0.0-beta.7
   autoprefixer: ^10.4.2
   axios: ^0.26.0
+  browser-id3-writer: ^4.4.0
   luxon: ^2.3.0
   postcss: ^8.4.6
   tailwindcss: ^3.0.22
@@ -21,6 +22,7 @@ dependencies:
   '@inertiajs/inertia-vue3': 0.6.0_f728848f39d415636c6b451fb7a2fad4
   '@vueup/vue-quill': 1.0.0-beta.7_vue@3.2.30
   axios: 0.26.0
+  browser-id3-writer: 4.4.0
   luxon: 2.3.0
   uuid: 8.3.2
   vue: 3.2.30
@@ -306,6 +308,10 @@ packages:
     dependencies:
       fill-range: 7.0.1
     dev: true
+
+  /browser-id3-writer/4.4.0:
+    resolution: {integrity: sha512-8xce9wo4VoKNR4udEGOAf8vndYxhToqQS+1wyrjdYVPQKRc4Wm6xwGG6XrKYgax28y5AvrbCkqK6t1RplPN2Ew==}
+    dev: false
 
   /browserslist/4.19.1:
     resolution: {integrity: sha512-u2tbbG5PdKRTUoctO3NBD8FQ5HdPh1ZXPHzp1rwaa5jTc+RV9/+RlWiAIKmjRPQF+xbGM9Kklj5bZQFa2s/38A==}

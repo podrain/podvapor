@@ -72,6 +72,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { v4 as uuidv4 } from 'uuid'
 import { DateTime } from 'luxon'
 import axios from 'axios'
+import ID3Writer from 'browser-id3-writer'
 
 const props = defineProps({
   podcast: Object
@@ -106,7 +107,27 @@ const submitEpisode = async () => {
   const audioArrayBuffer = await audioFile.value.arrayBuffer()
   console.log(audioArrayBuffer)
 
-  await axios.put(uploadURL, audioArrayBuffer, {
+  // ID3 tags
+
+  // Get image
+  const podcastImage = await axios.get(props.podcast.cover_image_url, {
+    responseType: 'arraybuffer'
+  })
+
+  const writer = new ID3Writer(audioArrayBuffer)
+  writer.setFrame('TIT2', form.title)
+    .setFrame('TALB', props.podcast.title)
+    .setFrame('TYER', now.toFormat('yyyy'))
+    .setFrame('TPE1', [props.podcast.owner.name])
+    .setFrame('APIC', {
+      type: 3,
+      data: podcastImage.data,
+      description: props.podcast.title + ' cover art'
+    })
+  
+  writer.addTag()
+
+  await axios.put(uploadURL, writer.arrayBuffer, {
     headers: {
       'Content-Type': 'audio/mpeg',
       'x-amz-acl': 'public-read'
