@@ -4,20 +4,22 @@
 
 <div class="mt-4 flex flex-col">
   <label for="form-title">Title</label>
-  <Input ref="formTitle" id="form-title" type="text" v-model="form.title" focus />
+  <Input class="mt-1" id="form-title" type="text" v-model="form.title" focus />
 </div>
 
 <div class="flex flex-col mt-6">
-  <label>Description</label>
-  <TextArea v-model="form.description"></TextArea>
+  <label for="form-description">Description</label>
+  <TextArea id="form-description" class="mt-1" v-model="form.description"></TextArea>
 </div>
 
 <div class="mt-6">
   <span>Notes (HTML)</span>
-  <QuillEditor 
-    v-model:content="form.notes"
-    content-type="html"
-  />
+  <div class="mt-1">
+    <QuillEditor 
+      v-model:content="form.notes"
+      content-type="html"
+    />
+  </div>
 </div>
 
 <div class="mt-6">
@@ -31,20 +33,24 @@
 </template>
 
 <style>
-  /* .ql-stroke {
+  .ql-container {
+    @apply rounded-b border-gray-400 !important;
+  }
+
+  .ql-stroke {
     stroke: white !important;
   }
 
   .ql-picker {
-    color: white !important;
+    @apply text-white text-base !important;
   }
 
   .ql-picker-label:hover {
-    background-color: black !important;
+    @apply bg-teal-500 !important;
   }
 
   .ql-active {
-    @apply bg-teal-500 !important
+    @apply bg-teal-600 text-white !important
   }
 
   .ql-formats > button:hover {
@@ -53,14 +59,22 @@
 
   .ql-picker-item {
     @apply text-black !important
-  } */
+  }
 
   .ql-toolbar {
-    @apply bg-white !important
+    @apply bg-gray-800 border-gray-400 rounded-t !important
+  }
+
+  .ql-toolbar *:focus {
+  @apply bg-gray-800 !important
   }
 
   .ql-editor {
-    @apply bg-white text-black !important;
+    @apply bg-gray-800 text-base rounded-b !important;
+  }
+
+  .ql-editor a {
+    @apply text-teal-200 !important
   }
 </style>
 
@@ -79,7 +93,6 @@ const props = defineProps({
   podcast: Object
 })
 
-const formTitle = ref(null)
 const audioFile = ref(null)
 
 const form = reactive({
