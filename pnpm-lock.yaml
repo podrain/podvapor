@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@inertiajs/inertia': ^0.11.0
   '@inertiajs/inertia-vue3': ^0.6.0
+  '@inertiajs/progress': ^0.2.7
   '@tailwindcss/typography': ^0.5.1
   '@vitejs/plugin-vue': ^2.2.0
   '@vue/compiler-sfc': ^3.2.30
@@ -20,6 +21,7 @@ specifiers:
 dependencies:
   '@inertiajs/inertia': 0.11.0
   '@inertiajs/inertia-vue3': 0.6.0_f728848f39d415636c6b451fb7a2fad4
+  '@inertiajs/progress': 0.2.7_@inertiajs+inertia@0.11.0
   '@vueup/vue-quill': 1.0.0-beta.7_vue@3.2.30
   axios: 0.26.0
   browser-id3-writer: 4.4.0
@@ -84,6 +86,15 @@ packages:
       qs: 6.10.3
     transitivePeerDependencies:
       - debug
+    dev: false
+
+  /@inertiajs/progress/0.2.7_@inertiajs+inertia@0.11.0:
+    resolution: {integrity: sha512-zxadfLlBPIUvTE9g5k71V/Ayzo8P9kEp4hV4UKywCC2kURufxV7bycbZqU1GeMCFGDT+VRrjXNl676Pwwa1HoQ==}
+    peerDependencies:
+      '@inertiajs/inertia': ^0.6.0 || ^0.7.0 || ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0
+    dependencies:
+      '@inertiajs/inertia': 0.11.0
+      nprogress: 0.2.0
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
@@ -949,6 +960,10 @@ packages:
     resolution: {integrity: sha1-LRDAa9/TEuqXd2laTShDlFa3WUI=}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /nprogress/0.2.0:
+    resolution: {integrity: sha1-y480xTIT2JVyP8urkH6UIq28r7E=}
+    dev: false
 
   /object-hash/2.2.0:
     resolution: {integrity: sha512-gScRMn0bS5fH+IuwyIFgnh9zBdo4DV+6GhygmWM9HyNJSgS0hScp1f5vjtm7oIIOiT9trXrShAkLFSc2IqKNgw==}
