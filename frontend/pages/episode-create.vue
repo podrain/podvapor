@@ -29,7 +29,11 @@
   </div>
 </div>
 
-<Button class="mt-6" @click="submitEpisode">Submit episode</Button>
+<Button 
+  class="mt-6 disabled:bg-teal-500" 
+  @click="submitEpisode"
+  :disabled="submittingText !== ''"
+>{{ submittingText || 'Submit episode'}}</Button>
 </template>
 
 <style>
@@ -105,7 +109,11 @@ const setAudioFile = (e) => {
   audioFile.value = e.target.files[0]
 }
 
+const submittingText = ref('')
+
 const submitEpisode = async () => {
+  submittingText.value = 'Submitting...'
+
   const uuid = uuidv4()
   const now = DateTime.now()
   const newFilename = uuid + '.mp3'
@@ -118,10 +126,12 @@ const submitEpisode = async () => {
   // ID3 tags
 
   // Get image
+  submittingText.value = 'Downloading image...'
   const podcastImage = await axios.get(props.podcast.cover_image_url, {
     responseType: 'arraybuffer'
   })
 
+  submittingText.value = 'Writing ID3 tags...'
   const writer = new ID3Writer(audioArrayBuffer)
   writer.setFrame('TIT2', form.title)
     .setFrame('TALB', props.podcast.title)
@@ -145,16 +155,17 @@ const submitEpisode = async () => {
 
     onUploadProgress: (progressEvent) => {
       const percentCompleted = (progressEvent.loaded * 100) / progressEvent.total
-
-      console.log(percentCompleted)
+      submittingText.value = 'Uploading audio file: '+Math.floor(percentCompleted)+'% complete'
     }
   })
 
   const cbAudioContext = window.AudioContext || window.webkitAudioContext
   const audioContext = new cbAudioContext()
 
+  submittingText.value = 'Decoding audio data...'
   const audioData = await audioContext.decodeAudioData(writer.arrayBuffer)
 
+  submittingText.value = 'Saving to database...'
   Inertia.post('/admin/podcasts/create', {
     id: uuid,
     title: form.title,
