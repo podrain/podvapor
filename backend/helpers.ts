@@ -60,7 +60,7 @@ export function sortByDateDescending(a : any, b : any) {
 }
 
 export async function parseFormParams(ctx : any) {
-  const params = new Map
+  let params : Record<string, any> = {}
 
   if (ctx.request.hasBody) {
 
@@ -70,14 +70,12 @@ export async function parseFormParams(ctx : any) {
       case 'json':
         const jsonPayload = await requestBody.value
 
-        for (const prop in jsonPayload) {
-          params.set(prop, jsonPayload[prop])
-        }
+        params = jsonPayload
         break;
       case 'form':
         const formPayload = await requestBody.value
         formPayload.forEach((value : any, key : any) => {
-          params.set(key, value)
+          params[key] = value
         })
         break;
       case 'form-data':
@@ -86,7 +84,7 @@ export async function parseFormParams(ctx : any) {
         const fields = formData.fields
 
         for (const prop in fields) {
-          params.set(prop, fields[prop])
+          params[prop] = fields[prop]
         }
     }
   }
