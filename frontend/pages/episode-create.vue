@@ -4,12 +4,12 @@
 
 <div class="mt-4 flex flex-col">
   <label for="form-title">Title</label>
-  <input ref="formTitle" id="form-title" type="text" class="rounded p-2 text-black" v-model="form.title">
+  <Input ref="formTitle" id="form-title" type="text" v-model="form.title" focus />
 </div>
 
 <div class="flex flex-col mt-6">
-  <label for="password">Description</label>
-  <textarea id="password" type="password" class="rounded p-2 text-black" v-model="form.description"></textarea>
+  <label>Description</label>
+  <TextArea v-model="form.description"></TextArea>
 </div>
 
 <div class="mt-6">
@@ -86,10 +86,6 @@ const form = reactive({
   title: '',
   description: '',
   notes: '',
-})
-
-onMounted(() => {
-  formTitle.value.focus()
 })
 
 const setAudioFile = (e) => {

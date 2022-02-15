@@ -3,12 +3,12 @@
     <form class="flex flex-col w-64" @submit.prevent="submit">
       <div class="flex flex-col">
         <label for="email">Email</label>
-        <input id="email" type="email" class="rounded p-2 text-black" v-model="form.email">
+        <Input id="email" type="email" v-model="form.email" />
       </div>
 
       <div class="flex flex-col mt-2">
         <label for="password">Password</label>
-        <input id="password" type="password" class="rounded p-2 text-black" v-model="form.password">
+        <Input id="password" type="password" v-model="form.password" />
       </div>
       
       <Button class="mt-4" type="submit">Login</Button>
