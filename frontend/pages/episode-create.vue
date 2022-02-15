@@ -65,7 +65,7 @@
 </style>
 
 <script setup>
-import { defineProps, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
