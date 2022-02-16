@@ -27,4 +27,3 @@ jobs:
         with:
           project: "podvapor"
           entrypoint: "./backend/app.ts"
-          root: public
