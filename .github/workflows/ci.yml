@@ -20,7 +20,7 @@ jobs:
           run_install: true
 
       - name: Build assets
-      - run: pnpm build-prod-assets
+        run: pnpm build-prod-assets
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
