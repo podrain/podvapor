@@ -5,3 +5,4 @@ node_modules
 podcasts.json
 database.db
 cockroach-data
+public/build

@@ -3,6 +3,7 @@ import inertia from './inertia.ts'
 import session from './session.ts'
 import { parseFormParams, getUserByEmail } from './helpers.ts'
 import * as bcrypt from 'https://deno.land/x/bcrypt@v0.3.0/mod.ts'
+import { initDBMiddleware } from './db.ts'
 
 export function isAuthenticated() {
   return async (ctx: Context, next: () => Promise<unknown>) => {
@@ -15,7 +16,10 @@ export function isAuthenticated() {
 }
 
 const authRoutes = new Router()
-  .use(session.initMiddleware())
+  .use(
+    initDBMiddleware(),
+    session.initMiddleware()
+  )
   .get('/login', inertia.initMiddleware(), async (ctx) => {
     if (await ctx.state.session.has('user_id')) {
       ctx.response.redirect('/admin/podcasts')

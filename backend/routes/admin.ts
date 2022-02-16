@@ -4,10 +4,11 @@ import session from '../session.ts'
 import { isAuthenticated } from '../auth.ts'
 import { getPodcasts, getPodcast, getPodcastById, getEpisodes, sortByDateDescending, getEpisode, parseFormParams, convertDateForWeb } from '../helpers.ts'
 import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/add-custom-endpoint/mod.ts'
-import DB from '../db.ts'
+import DB, { initDBMiddleware } from '../db.ts'
  
 const adminRoutes = new Router()
 .use(
+  initDBMiddleware(),
   inertia.initMiddleware(), 
   session.initMiddleware(), 
   isAuthenticated()

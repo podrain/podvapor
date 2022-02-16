@@ -1,5 +1,6 @@
 import { Client } from "https://deno.land/x/postgres@v0.15.0/mod.ts"
 import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
+import { Context } from './deps.ts'
 
 const db = new Client({
   hostname: Deno.env.get('DB_HOST'),
@@ -14,5 +15,13 @@ const db = new Client({
     ],
   }
 })
+
+export function initDBMiddleware() {
+  return async (ctx : Context, next: () => Promise<unknown>) => {
+    await db.connect()
+    await next()
+    await db.end()
+  }
+}
 
 export default db

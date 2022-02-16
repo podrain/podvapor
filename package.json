@@ -22,6 +22,7 @@
 	"scripts": {
 		"start-server": "deno run -A --watch --no-check backend/app.ts",
 		"start-db": "cockroach start-single-node --insecure --http-addr=:8081",
-		"start-vite": "pnpx vite"
+		"start-vite": "pnpx vite",
+		"build-prod-assets": "pnpx vite build"
 	}
 }
