@@ -5,4 +5,5 @@ node_modules
 podcasts.json
 database.db
 cockroach-data
-public/build
+public/build/*
+!public/build/.gitkeep
