@@ -2,7 +2,6 @@ import { Application, Router } from './deps.ts'
 import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
 import mime from 'https://cdn.skypack.dev/mime-types'
 
-import DB from './db.ts'
 import adminRouter from './routes/admin.ts'
 import { authRouter } from './auth.ts'
 import publicRouter from './routes/public.ts'
@@ -26,6 +25,15 @@ firstRouter
 .get('/robots.txt', (ctx) => {
   ctx.response.body = `User-agent: *
 Disallow:`
+})
+
+app.use(async (ctx, next) => {
+  await next()
+  if (ctx.state.hasOwnProperty('inertia') && ctx.state.hasOwnProperty('session') && ctx.state.session.has('errors')) {
+    ctx.state.inertia.setShared({
+      errors: await ctx.state.session.get('errors')
+    })
+  }
 })
 
 app.use(firstRouter.routes(), firstRouter.allowedMethods())

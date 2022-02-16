@@ -18,16 +18,17 @@ export function isAuthenticated() {
 const authRoutes = new Router()
   .use(
     initDBMiddleware(),
-    session.initMiddleware()
+    session.initMiddleware(),
+    inertia.initMiddleware(),
   )
-  .get('/login', inertia.initMiddleware(), async (ctx) => {
+  .get('/login',  async (ctx) => {
     if (await ctx.state.session.has('user_id')) {
       ctx.response.redirect('/admin/podcasts')
     } else {
       ctx.state.inertia.render('login')
     }
   })
-  .post('/logout', async (ctx, next) => {
+  .post('/logout', async (ctx) => {
     await ctx.state.session.deleteSession()
     ctx.response.redirect('/admin/login')
   })
@@ -40,7 +41,8 @@ const authRoutes = new Router()
       await ctx.state.session.set('user_id', user.id)
       ctx.response.redirect('/admin/podcasts')
     } else {
-      await ctx.response.redirect('/admin/login')
+      await ctx.state.session.flash('errors', 'Wrong email or password.')
+      ctx.response.redirect('/admin/login')
     }
   })
 
