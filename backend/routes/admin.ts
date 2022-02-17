@@ -5,6 +5,7 @@ import { isAuthenticated } from '../auth.ts'
 import { getPodcasts, getPodcast, getPodcastById, getEpisodes, sortByDateDescending, getEpisode, parseFormParams, convertDateForWeb } from '../helpers.ts'
 import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/add-custom-endpoint/mod.ts'
 import DB, { initDBMiddleware } from '../db.ts'
+import settings from '../settings.ts'
  
 const adminRoutes = new Router()
 .use(
@@ -81,7 +82,15 @@ const adminRoutes = new Router()
   })
 })
 .get('/settings', async (ctx) => {
-  ctx.state.inertia.render('settings')
+  ctx.state.inertia.render('settings', {
+    siteName: await settings.get('site_name')
+  })
+})
+.put('/settings', async (ctx) => {
+  const formParams = await parseFormParams(ctx)
+  await settings.set('site_name', formParams.siteName)
+  ctx.response.status = 303
+  ctx.response.redirect('/admin/settings')
 })
 .get('/', async (ctx) => {
   ctx.response.redirect('/admin/podcasts')
