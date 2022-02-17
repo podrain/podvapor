@@ -3,7 +3,7 @@ import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
 import mime from 'https://cdn.skypack.dev/mime-types'
 
 import adminRouter from './routes/admin.ts'
-import { authRouter } from './auth.ts'
+import authRouter from './routes/auth.ts'
 import publicRouter from './routes/public.ts'
 
 const app = new Application()
