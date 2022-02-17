@@ -40,7 +40,7 @@ export default async function(podcastSlug, episodeID) {
   </div>
   `
 
-  const final = layout({
+  const final = await layout({
     title: podcast.title + ' | ' + episode.title,
     head,
     foot,

@@ -1,5 +1,6 @@
 import layout from './layout.ts'
 import { getPodcasts } from '../helpers.ts'
+import settings from '../settings.ts'
 
 export default async function() {
   const podcasts = await getPodcasts()
@@ -33,12 +34,12 @@ export default async function() {
 </style>`
 
   const content = /* html */`<div class="mt-3">
-  <h1>${ Deno.env.get('SITE_NAME') }</h1>
+  <h1>${ await settings.get('site_name') }</h1>
 
   ${ podcastList }
 </div>`
 
-  return layout({
+  return await layout({
     content,
     head
   })

@@ -72,7 +72,6 @@ In Deno Deploy™, create these ENVIRONMENT variables and fill in the appropriat
 
 - `ENVIRONMENT` — `production`
 - `DOMAIN` — The domain the of the site. This can be your own or one created [automatically by Deno Deploy™](https://deno.com/deploy/docs/projects#domains).
-- `SITE_NAME` — The name for all your podcasts. This is like your "umbrella" name for all your podcasts. If you have only one podcast, this could be the name of your podcast.
 
 ## Costs
 

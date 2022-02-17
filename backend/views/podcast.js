@@ -50,7 +50,7 @@ export default async function(slug) {
     </script>
   `
 
-  const final = layout({
+  const final = await layout({
     title: podcast.title,
     head,
     foot,
