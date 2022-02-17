@@ -5,9 +5,9 @@ export default async function(slug) {
   const podcast = await getPodcast(slug)
   const episodes = await getEpisodes(podcast.id)
 
-  const episodeList = episodes.sort(sortByDateDescending).map(ep => {
+  const episodeList = episodes.sort(sortByDateDescending).map((ep, index) => {
     return /* html */`
-      <div class="card">
+      <div class="card ${ index == episodes.length - 1 && 'mb-3' }">
         <div class="card-body">
           <h4>${ ep.title }</h4>
           <p class="text-secondary"><em>${ convertDateForWeb(ep.published) }</em></p>
