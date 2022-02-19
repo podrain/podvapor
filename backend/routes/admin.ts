@@ -60,6 +60,25 @@ const adminRoutes = new Router()
 
   ctx.response.redirect('/admin/podcasts/'+podcast.slug)
 })
+.get('/podcasts/new', async (ctx) => {
+  ctx.state.inertia.render('podcast-create')
+})
+.post('/podcasts', async (ctx) => {
+  const formParams = await parseFormParams(ctx)
+
+  await DB.queryArray(`insert into podcasts (id, title, slug, description, categories, owner, author, copyright) values ($1, $2, $3, $4, $5, $6, $7, $8)`, [
+    formParams.id,
+    formParams.title,
+    formParams.slug,
+    formParams.description,
+    JSON.stringify(formParams.categories.map(cat => cat.name)),
+    formParams.owner,
+    formParams.author,
+    formParams.copyright
+  ])
+
+  ctx.response.redirect('/admin/podcasts')
+})
 .get('/podcasts/:slug', async (ctx) => {
   const podcast = await getPodcast(ctx.params.slug) as any
   const episodes = (await getEpisodes(podcast.id)).sort(sortByDateDescending)

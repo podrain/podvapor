@@ -5,3 +5,7 @@
 .pv-button {
   @apply bg-teal-600 hover:bg-teal-700 rounded p-2
 }
+
+.pv-button.pv-button-outline {
+  @apply border-2 border-teal-600 bg-opacity-0 text-teal-200
+}

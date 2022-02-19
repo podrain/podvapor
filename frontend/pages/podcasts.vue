@@ -1,6 +1,6 @@
 <template>
-<h1 class="text-3xl">Podcasts</h1>
-
+<h1 class="text-3xl mb-4">Podcasts</h1>
+<Link class="pv-button" href="/admin/podcasts/new">Create new podcast</Link>
 <div class="mt-6 flex" v-for="pc in podcasts">
   <img :src="pc.cover_image_url" alt="" class="w-48">
   <div class="ml-6">
