@@ -66,13 +66,14 @@ const adminRoutes = new Router()
 .post('/podcasts', async (ctx) => {
   const formParams = await parseFormParams(ctx)
 
-  await DB.queryArray(`insert into podcasts (id, title, slug, description, categories, owner, author, copyright) values ($1, $2, $3, $4, $5, $6, $7, $8)`, [
+  await DB.queryArray(`insert into podcasts (id, title, slug, description, categories, owner, links, author, copyright) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [
     formParams.id,
     formParams.title,
     formParams.slug,
     formParams.description,
     JSON.stringify(formParams.categories.map(cat => cat.name)),
     formParams.owner,
+    JSON.stringify([]),
     formParams.author,
     formParams.copyright
   ])
