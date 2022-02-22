@@ -16,7 +16,7 @@ export default {
   },
 
   async set(key: string, value: string | number) {
-    const result = await db.client.queryArray('update settings set value = $1 where key = $2', [
+    const result = await db.runQuery('update settings set value = $1 where key = $2', [
       value,
       key
     ])
