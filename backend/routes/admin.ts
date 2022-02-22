@@ -9,7 +9,6 @@ import settings from '../settings.ts'
  
 const adminRoutes = new Router()
 .use(
-  db.initMiddleware(),
   inertia.initMiddleware(), 
   session.initMiddleware(), 
   isAuthenticated()

@@ -22,12 +22,15 @@ class Database {
     }, 3, true)
   }
 
-  initMiddleware() {
-    return async (ctx : Context, next: () => Promise<unknown>) => {
-      this.client = await this.pool.connect()
-      await next()
-      this.client.release()
+  async runQuery(query : string, args: Array<unknown> = []) {
+    const client = await this.pool.connect()
+    let result
+    try {
+      result = await client.queryObject(query, args)
+    } finally {
+      client.release()
     }
+    return result
   }
 }
 

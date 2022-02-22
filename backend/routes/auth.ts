@@ -7,7 +7,6 @@ import db from '../db.ts'
 
 const authRoutes = new Router()
   .use(
-    db.initMiddleware(),
     session.initMiddleware(),
     inertia.initMiddleware(),
   )

@@ -2,7 +2,7 @@ import db from './db.ts'
 
 export default {
   async get(key: string) {
-    const result = await db.client.queryObject('select * from settings where key = $1', [key]) as any
+    const result = await db.runQuery('select * from settings where key = $1', [key]) as any
     let value = null
     const resultRow = result.rows[0]
 
