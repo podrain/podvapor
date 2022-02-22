@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@domchristie/needles': ^0.0.2-1
   '@inertiajs/inertia': ^0.11.0
   '@inertiajs/inertia-vue3': ^0.6.0
   '@inertiajs/progress': ^0.2.7
@@ -19,6 +20,7 @@ specifiers:
   vue: ^3.2.30
 
 dependencies:
+  '@domchristie/needles': 0.0.2-1
   '@inertiajs/inertia': 0.11.0
   '@inertiajs/inertia-vue3': 0.6.0_f728848f39d415636c6b451fb7a2fad4
   '@inertiajs/progress': 0.2.7_@inertiajs+inertia@0.11.0
@@ -65,6 +67,10 @@ packages:
     resolution: {integrity: sha512-VKXSCQx5D8S04ej+Dqsr1CzYvvWgf20jIw2D+YhQCrIlr2UZGaDds23Y0xg75/skOxpLCRpUZvk/1EAVkGoDOw==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+
+  /@domchristie/needles/0.0.2-1:
+    resolution: {integrity: sha512-Ba7QEJ/FgcD6sVzT6d31gefF+TZYWO24egtGttsPi0AQtEpeTWuNv23CNqPH6BaJdacc/GvK3a4WM/vLiboJag==}
+    dev: false
 
   /@inertiajs/inertia-vue3/0.6.0_f728848f39d415636c6b451fb7a2fad4:
     resolution: {integrity: sha512-qhPBtd/G0VS7vVVbYw1rrqKB6JqRusxqt+5ec2GLmK6t7fTlBBnZ3KsakmGZLSM1m1OGkNcfn4ifmCk3zfA8RQ==}

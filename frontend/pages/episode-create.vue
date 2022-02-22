@@ -29,6 +29,10 @@
   </div>
 </div>
 
+<div class="mt-3" v-if="audioFile">
+  <span class="bg-purple-900 p-2">Loudness: {{ audioFileLoudness }}</span>
+</div>
+
 <Button 
   class="mt-6 disabled:bg-teal-500" 
   @click="submitEpisode"
@@ -92,6 +96,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { DateTime } from 'luxon'
 import axios from 'axios'
 import ID3Writer from 'browser-id3-writer'
+import { LoudnessMeter } from '@domchristie/needles'
 
 const props = defineProps({
   podcast: Object
@@ -105,9 +110,38 @@ const form = reactive({
   notes: '',
 })
 
-const setAudioFile = (e) => {
+const setAudioFile = async (e) => {
+  audioFileLoudness.value = 'Calculating...'
   audioFile.value = e.target.files[0]
+
+  const AudioContext = window.AudioContext || window.webkitAudioContext
+  const audioContext = new AudioContext()
+  
+  const audioData = await audioContext.decodeAudioData(await audioFile.value.arrayBuffer(), (buffer) => {
+    const OfflineAudioContext = window.OfflineAudioContext || window.webkitOfflineAudioContext
+    const offlineAudioContext = new OfflineAudioContext(
+      buffer.numberOfChannels,
+      buffer.length,
+      buffer.sampleRate
+    )
+
+    const source = offlineAudioContext.createBufferSource()
+    source.buffer = buffer
+
+    const loudnessMeter = new LoudnessMeter({
+      source,
+      workerUri: '/public/needles-worker.js'
+    })
+
+    loudnessMeter.on('dataavailable', function (event) {
+      audioFileLoudness.value = event.data.value.toFixed(2)
+    })
+
+    loudnessMeter.start()
+  })
 }
+
+const audioFileLoudness = ref('')
 
 const submittingText = ref('')
 
