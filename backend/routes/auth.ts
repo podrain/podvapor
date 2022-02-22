@@ -3,11 +3,11 @@ import inertia from '../inertia.ts'
 import session from '../session.ts'
 import { parseFormParams, getUserByEmail } from '../helpers.ts'
 import * as bcrypt from 'https://deno.land/x/bcrypt@v0.3.0/mod.ts'
-import { initDBMiddleware } from '../db.ts'
+import db from '../db.ts'
 
 const authRoutes = new Router()
   .use(
-    initDBMiddleware(),
+    db.initMiddleware(),
     session.initMiddleware(),
     inertia.initMiddleware(),
   )

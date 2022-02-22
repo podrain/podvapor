@@ -1,38 +1,38 @@
 import { DateTime } from 'https://cdn.skypack.dev/luxon'
-import DB from './db.ts'
+import db from './db.ts'
 
 export async function getPodcasts() {
-  const result = await DB.queryObject('select * from podcasts')
+  const result = await db.client.queryObject('select * from podcasts')
   let podcasts = result.rows
   return podcasts
 }
 
 export async function getPodcast(slug : string) {
-  const result = (await DB.queryObject('select * from podcasts where slug = $1', [slug]))
+  const result = (await db.client.queryObject('select * from podcasts where slug = $1', [slug]))
   const podcast = result.rows[0]
   return podcast
 }
 
 export async function getPodcastById(id : string) {
-  const result = (await DB.queryObject('select * from podcasts where id = $1', [id]))
+  const result = (await db.client.queryObject('select * from podcasts where id = $1', [id]))
   const podcast = result.rows[0]
   return podcast
 }
 
 export async function getEpisodes(podcastID : string) {
-  const result = (await DB.queryObject('select * from episodes where podcast_id = $1', [podcastID]))
+  const result = (await db.client.queryObject('select * from episodes where podcast_id = $1', [podcastID]))
   const episodes = result.rows
   return episodes
 }
 
 export async function getEpisode(episodeID : string) {
-  const result = (await DB.queryObject('select * from episodes where id = $1', [episodeID]))
+  const result = (await db.client.queryObject('select * from episodes where id = $1', [episodeID]))
   const episode = result.rows[0]
   return episode
 }
 
 export async function getUserByEmail(email : string) {
-  const result = (await DB.queryObject('select * from users where email = $1', [email]))
+  const result = (await db.client.queryObject('select * from users where email = $1', [email]))
   const user = result.rows[0]
   return user
 }

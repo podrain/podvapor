@@ -1,8 +1,8 @@
-import DB from './db.ts'
+import db from './db.ts'
 
 export default {
   async get(key: string) {
-    const result = await DB.queryObject('select * from settings where key = $1', [key]) as any
+    const result = await db.client.queryObject('select * from settings where key = $1', [key]) as any
     let value = null
     const resultRow = result.rows[0]
 
@@ -16,7 +16,7 @@ export default {
   },
 
   async set(key: string, value: string | number) {
-    const result = await DB.queryArray('update settings set value = $1 where key = $2', [
+    const result = await db.client.queryArray('update settings set value = $1 where key = $2', [
       value,
       key
     ])

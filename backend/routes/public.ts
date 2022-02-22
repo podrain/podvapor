@@ -4,10 +4,10 @@ import home from '../views/home.js'
 import podcast from '../views/podcast.js'
 import episode from '../views/episode.js'
 import feed from '../views/feed.js'
-import { initDBMiddleware } from '../db.ts'
+import db from '../db.ts'
 
 const publicRouter = new Router()
-.use(initDBMiddleware())
+.use(db.initMiddleware())
 .get('/:slug/feed', async (ctx) => {
   ctx.response.headers.set('Content-Type', 'application/xml')
   ctx.response.body = await feed(ctx.params.slug)
