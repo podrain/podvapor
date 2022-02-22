@@ -14,6 +14,19 @@ const adminRoutes = new Router()
   session.initMiddleware(), 
   isAuthenticated()
 )
+.get('/presigned-upload-url-images/:filename', async (ctx) => {
+  const uploadURL = getSignedUrl({
+    accessKeyId: Deno.env.get('S3_ACCESS_KEY')!,
+    secretAccessKey: Deno.env.get('S3_SECRET_KEY')!,
+    bucketName: Deno.env.get('S3_BUCKET')!,
+    method: 'PUT',
+    expiresIn: 900,
+    objectPath: 'images/'+ctx.params.filename,
+    endpoint: Deno.env.get('S3_ENDPOINT'),
+  })
+
+  ctx.response.body = uploadURL
+})
 .get('/presigned-upload-url/:filename', async (ctx) => {
   const uploadURL = getSignedUrl({
     accessKeyId: Deno.env.get('S3_ACCESS_KEY')!,
@@ -66,11 +79,12 @@ const adminRoutes = new Router()
 .post('/podcasts', async (ctx) => {
   const formParams = await parseFormParams(ctx)
 
-  await DB.queryArray(`insert into podcasts (id, title, slug, description, categories, owner, links, author, copyright) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [
+  await DB.queryArray(`insert into podcasts (id, title, slug, description, cover_image_url, categories, owner, links, author, copyright) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`, [
     formParams.id,
     formParams.title,
     formParams.slug,
     formParams.description,
+    formParams.cover_image_url,
     JSON.stringify(formParams.categories.map(cat => cat.name)),
     formParams.owner,
     JSON.stringify([]),
