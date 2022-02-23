@@ -25,14 +25,6 @@ export default async function(slug) {
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
     <!-- Scripts -->
     <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
-    <style>
-        .plyr {
-            min-width: 0;
-        }
-        .plyr--audio .plyr__controls {
-            padding: 0;
-        }
-    </style>
   `
 
   const foot = `

@@ -9,3 +9,23 @@
 .pv-button.pv-button-outline {
   @apply border-2 border-teal-600 bg-opacity-0 text-teal-200
 }
+
+.plyr--audio .plyr__controls {
+  @apply bg-gray-800 text-white p-0
+}
+
+.plyr--audio .plyr__control {
+  @apply rounded-none
+}
+
+.plyr--audio .plyr__control:hover {
+  @apply bg-teal-500
+}
+
+.plyr--audio .plyr__control[aria-expanded="true"] {
+  @apply bg-teal-500
+}
+
+.plyr--full-ui input[type="range"] {
+  @apply text-teal-500
+}
