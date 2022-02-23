@@ -7,40 +7,27 @@ export default async function() {
 
   const podcastList = podcasts.map(pc => {
     return /* html */`
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12 col-md-3">
-              <img class="w-100" src="${ pc.cover_image_url }" />
-            </div>
-            <div class="podcast-content col-12 mt-3 col-md-9">
-              <h5 class="card-title"><a href="/${ pc.slug }">${ pc.title }</a></h5>
-              <a class="d-inline-block mt-2" href="/${ pc.slug }/feed">RSS Feed</a>
-              ${ pc.links.map((lk, index) => `${ index == 0 ? '<br>' : '' }<a href="${ lk.link }">${ lk.name }</a>`).join('<br>') }
-              <p class="card-text mt-3">${ pc.description }</p>
-            </div>
-          </div>
+      <div class="flex flex-col p-4 w-full sm:flex-row">
+        <div class="sm:w-1/3">
+          <img class="w-100" src="${ pc.cover_image_url }" />
+        </div>
+        <div class="mt-3 sm:ml-6 sm:mt-0 sm:w-2/3">
+          <h2 class="text-3xl"><a class="underline text-teal-100" href="/${ pc.slug }">${ pc.title }</a></h2>
+          <a class="inline-block mt-2 underline text-teal-200" href="/${ pc.slug }/feed">RSS Feed</a>
+          ${ pc.links.map((lk, index) => `${ index == 0 ? '<br>' : '' }<a class="underline text-teal-200" href="${ lk.link }">${ lk.name }</a>`).join('<br>') }
+          <p class="mt-3">${ pc.description }</p>
         </div>
       </div>
     `
   }).join('<div class="mt-3"></div>')
 
-  const head = /* html */`<style>
-  @media (min-width: 768px) {
-    .podcast-content {
-      margin-top: 0 !important
-    }
-  }
-</style>`
-
   const content = /* html */`<div class="mt-3">
-  <h1>${ await settings.get('site_name') }</h1>
+  <h1 class="px-4 text-3xl">${ await settings.get('site_name') }</h1>
 
   ${ podcastList }
 </div>`
 
   return await layout({
-    content,
-    head
+    content
   })
 }

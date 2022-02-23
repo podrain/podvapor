@@ -7,21 +7,18 @@ export default async function(slug) {
 
   const episodeList = episodes.sort(sortByDateDescending).map((ep, index) => {
     return /* html */`
-      <div class="card ${ index == episodes.length - 1 && 'mb-3' }">
-        <div class="card-body">
-          <h4>${ ep.title }</h4>
-          <p class="text-secondary"><em>${ convertDateForWeb(ep.published) }</em></p>
-          <p class="mt-3">${ ep.description }</p>
-          <a href="/${ podcast.slug }/episode/${ ep.id }">Read more</a>
-          <div class="mt-3">
-            <audio class="player" controls>
-              <source src="${ ep.audio.url }">
-            </audio>
-          </div>
+      <div class="bg-gray-800 rounded p-4 ${ episodes.length > 1 && index !== episodes.length - 1 && 'mb-3' }">
+        <h2 class="text-teal-100 text-xl"><a class="underline" href="/${ podcast.slug }/episode/${ ep.id }">${ ep.title }</a></h2>
+        <p class="mt-4"><em>${ convertDateForWeb(ep.published) }</em></p>
+        <p class="mt-4">${ ep.description }</p>
+        <div class="mt-4">
+          <audio class="player" controls>
+            <source src="${ ep.audio.url }">
+          </audio>
         </div>
       </div>
     `
-  }).join('<div class="mt-3"></div>')
+  }).join('<div class="mt-4"></div>')
 
   const head = /* html */`
     <link rel="alternate" href="${ Deno.env.get('DOMAIN') }/${ podcast.slug }/feed" type="application/rss+xml" title="${ podcast.title }">
@@ -34,12 +31,6 @@ export default async function(slug) {
         }
         .plyr--audio .plyr__controls {
             padding: 0;
-        }
-
-        @media (min-width: 768px) {
-          .podcast-content {
-            margin-top: 0 !important
-          }
         }
     </style>
   `
@@ -55,20 +46,20 @@ export default async function(slug) {
     head,
     foot,
     content: /* html */`
-    <div class="mt-3">
-      <div class="row">
-        <div class="col-12 col-md-3">
-          <img class="w-100" src="${ podcast.cover_image_url }" />
+    <div class="p-4">
+      <div class="flex flex-col sm:flex-row">
+        <div class="sm:w-1/3">
+          <img src="${ podcast.cover_image_url }" />
         </div>
-        <div class="podcast-content col-12 mt-3 col-md-9">
-          <a href="/">Back to all podcasts</a>
-          <h1 class="mt-3">${ podcast.title }</h1>
-          <a href="/${ podcast.slug }/feed">RSS Feed</a>
-          ${ podcast.links.map((lk, index) => `${ index == 0 ? '<br>' : '' }<a href="${ lk.link }">${ lk.name }</a>`).join('<br>') }
+        <div class="mt-4 sm:w-2/3 sm:mt-0 sm:ml-4">
+          <a class="underline text-teal-200" href="/">Back to all podcasts</a>
+          <h1 class="mt-4 text-3xl text-teal-100">${ podcast.title }</h1>
+          <a class="inline-block mt-4 underline text-teal-200" href="/${ podcast.slug }/feed">RSS Feed</a>
+          ${ podcast.links.map((lk, index) => `${ index == 0 ? '<br>' : '' }<a class="underline text-teal-200" href="${ lk.link }">${ lk.name }</a>`).join('<br>') }
+          <p class="mt-4">${ podcast.description }</p>
         </div>
-      <p class="mt-3">${ podcast.description }</p>
       </div>
-      <h2 class="mb-3">Episodes</h2>
+      <h2 class="text-2xl my-4 text-teal-200">Episodes</h2>
       ${ episodeList }
     </div>
     `
