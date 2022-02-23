@@ -40,10 +40,10 @@ export default async function(slug) {
     content: /* html */`
     <div class="p-4">
       <div class="flex flex-col sm:flex-row">
-        <div class="sm:w-1/3">
+        <div class="sm:w-1/3 md:w-1/4">
           <img src="${ podcast.cover_image_url }" />
         </div>
-        <div class="mt-4 sm:w-2/3 sm:mt-0 sm:ml-4">
+        <div class="mt-4 sm:w-2/3 md:w-3/4 sm:mt-0 sm:ml-4">
           <a class="underline text-teal-200" href="/">Back to all podcasts</a>
           <h1 class="mt-4 text-3xl text-teal-100">${ podcast.title }</h1>
           <a class="inline-block mt-4 underline text-teal-200" href="/${ podcast.slug }/feed">RSS Feed</a>
