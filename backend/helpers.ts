@@ -1,4 +1,4 @@
-import { DateTime } from 'https://cdn.skypack.dev/luxon'
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0'
 import db from './db.ts'
 
 export async function getPodcasts() {
