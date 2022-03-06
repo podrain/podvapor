@@ -1,9 +1,10 @@
 import layout from './layout.ts'
-import { getPodcast, getEpisodes, convertDateForWeb, sortByDateDescending } from '../helpers.ts'
+import { convertDateForWeb, sortByDateDescending } from '../helpers.ts'
+import PodcastService from '../services/podcast_service.ts'
 
 export default async function(slug) {
-  const podcast = await getPodcast(slug)
-  const episodes = await getEpisodes(podcast.id)
+  const podcast = await (new PodcastService).getPodcastBySlug(slug)
+  const episodes = await (new PodcastService).getEpisodes(podcast.id)
 
   const episodeList = episodes.sort(sortByDateDescending).map((ep, index) => {
     return /* html */`

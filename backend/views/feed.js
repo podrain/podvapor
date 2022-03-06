@@ -1,8 +1,9 @@
-import { getPodcast, getEpisodes, convertTimeForFeed, sortByDateDescending } from '../helpers.ts'
+import { convertTimeForFeed, sortByDateDescending } from '../helpers.ts'
+import PodcastService from '../services/podcast_service.ts'
 
 export default async function(slug) {
-  const podcast = await getPodcast(slug)
-  const episodes = await getEpisodes(podcast.id)
+  const podcast = await (new PodcastService).getPodcastBySlug(slug)
+  const episodes = await (new PodcastService).getEpisodes(podcast.id)
 
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
     <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/">

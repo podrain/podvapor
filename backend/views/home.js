@@ -1,9 +1,9 @@
 import layout from './layout.ts'
-import { getPodcasts } from '../helpers.ts'
+import PodcastService from '../services/podcast_service.ts'
 import settings from '../settings.ts'
 
 export default async function() {
-  const podcasts = await getPodcasts()
+  const podcasts = await (new PodcastService).getPodcasts()
 
   const podcastList = podcasts.map(pc => {
     return /* html */`

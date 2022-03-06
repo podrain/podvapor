@@ -1,41 +1,4 @@
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0'
-import db from './db.ts'
-
-export async function getPodcasts() {
-  const result = await db.runQuery('select * from podcasts')
-  let podcasts = result.rows
-  return podcasts
-}
-
-export async function getPodcast(slug : string) {
-  const result = (await db.runQuery('select * from podcasts where slug = $1', [slug]))
-  const podcast = result.rows[0]
-  return podcast
-}
-
-export async function getPodcastById(id : string) {
-  const result = (await db.runQuery('select * from podcasts where id = $1', [id]))
-  const podcast = result.rows[0]
-  return podcast
-}
-
-export async function getEpisodes(podcastID : string) {
-  const result = (await db.runQuery('select * from episodes where podcast_id = $1', [podcastID]))
-  const episodes = result.rows
-  return episodes
-}
-
-export async function getEpisode(episodeID : string) {
-  const result = (await db.runQuery('select * from episodes where id = $1', [episodeID]))
-  const episode = result.rows[0]
-  return episode
-}
-
-export async function getUserByEmail(email : string) {
-  const result = (await db.runQuery('select * from users where email = $1', [email]))
-  const user = result.rows[0]
-  return user
-}
 
 export function convertTimeForFeed(time : string) {
   const newTime = DateTime.fromSQL(time).setZone('UTC', { keepLocalTime: true }).toRFC2822()

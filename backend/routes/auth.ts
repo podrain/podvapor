@@ -1,9 +1,9 @@
 import { Router } from '../deps.ts'
 import inertia from '../inertia.ts'
 import session from '../session.ts'
-import { parseFormParams, getUserByEmail } from '../helpers.ts'
+import { parseFormParams } from '../helpers.ts'
+import UserService from '../services/user_service.ts'
 import * as bcrypt from 'https://deno.land/x/bcrypt@v0.3.0/mod.ts'
-import db from '../db.ts'
 
 const authRoutes = new Router()
   .use(
@@ -24,7 +24,7 @@ const authRoutes = new Router()
   .post('/login', async (ctx) => {
     const formParams = await parseFormParams(ctx)
 
-    const user = await getUserByEmail(formParams.email) as any
+    const user = await (new UserService).getUserByEmail(formParams.email) as any
 
     if (await bcrypt.compareSync(formParams.password, user.password)) {
       await ctx.state.session.set('user_id', user.id)

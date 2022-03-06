@@ -2,7 +2,9 @@ import { Router } from '../deps.ts'
 import inertia from '../inertia.ts'
 import session from '../session.ts'
 import { isAuthenticated } from '../auth.ts'
-import { getPodcasts, getPodcast, getPodcastById, getEpisodes, sortByDateDescending, getEpisode, parseFormParams, convertDateForWeb } from '../helpers.ts'
+import { sortByDateDescending, parseFormParams, convertDateForWeb } from '../helpers.ts'
+import PodcastService from '../services/podcast_service.ts'
+import EpisodeService from '../services/episode_service.ts'
 import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/add-custom-endpoint/mod.ts'
 import db from '../db.ts'
 import settings from '../settings.ts'
@@ -40,8 +42,8 @@ const adminRoutes = new Router()
   ctx.response.body = uploadURL
 })
 .get('/episodes/:id', async (ctx) => {
-  const episode = await getEpisode(ctx.params.id) as any
-  const podcast = await getPodcastById(episode.podcast_id)
+  const episode = await (new EpisodeService).getEpisode(ctx.params.id) as any
+  const podcast = await (new PodcastService).getPodcast(episode.podcast_id)
 
   ctx.state.inertia.render('episode', {
     podcast,
@@ -49,7 +51,7 @@ const adminRoutes = new Router()
   })
 })
 .get('/podcasts/:slug/newepisode', async (ctx) => {
-  const podcast = await getPodcast(ctx.params.slug)
+  const podcast = await (new PodcastService).getPodcastBySlug(ctx.params.slug)
 
   ctx.state.inertia.render('episode-create', {
     podcast
@@ -57,7 +59,7 @@ const adminRoutes = new Router()
 })
 .post('/podcasts/create', async (ctx) => {
   const formParams = await parseFormParams(ctx)
-  const podcast = await getPodcastById(formParams.podcast_id) as any
+  const podcast = await (new PodcastService).getPodcast(formParams.podcast_id) as any
 
   await db.runQuery(`insert into episodes (id, title, description, notes, audio, duration, published, podcast_id) values ($1, $2, $3, $4, $5, $6, $7, $8)`, [
     formParams.id,
@@ -94,8 +96,8 @@ const adminRoutes = new Router()
   ctx.response.redirect('/admin/podcasts')
 })
 .get('/podcasts/:slug', async (ctx) => {
-  const podcast = await getPodcast(ctx.params.slug) as any
-  const episodes = (await getEpisodes(podcast.id)).sort(sortByDateDescending)
+  const podcast = await (new PodcastService).getPodcastBySlug(ctx.params.slug) as any
+  const episodes = (await (new PodcastService).getEpisodes(podcast.id)).sort(sortByDateDescending)
 
   const episodesModified = episodes.map((ep : any) => {
     ep.published = convertDateForWeb(ep.published)
@@ -108,7 +110,7 @@ const adminRoutes = new Router()
   })
 })
 .get('/podcasts', async (ctx) => {
-  const podcasts = await getPodcasts()
+  const podcasts = await (new PodcastService).getPodcasts()
 
   ctx.state.inertia.render('podcasts', {
     podcasts

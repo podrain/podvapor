@@ -1,10 +1,12 @@
 import layout from './layout.ts'
-import { getPodcast, getEpisode, convertDateForWeb } from '../helpers.ts'
+import { convertDateForWeb } from '../helpers.ts'
+import PodcastService from '../services/podcast_service.ts'
+import EpisodeService from '../services/episode_service.ts'
 
 export default async function(podcastSlug, episodeID) {
 
-  const podcast = await getPodcast(podcastSlug)
-  const episode = await getEpisode(episodeID)
+  const podcast = await (new PodcastService).getPodcastBySlug(podcastSlug)
+  const episode = await (new EpisodeService).getEpisode(episodeID)
 
   const head = /* html */`
     <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
