@@ -1,7 +1,7 @@
 import { Inertia } from './deps.ts'
 import { manifest } from './helpers.ts'
 
-export default new Inertia(`<!DOCTYPE html>
+const inertia = new Inertia(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -23,3 +23,5 @@ export default new Inertia(`<!DOCTYPE html>
   @inertia
 </body>
 </html>`)
+
+export default inertia
