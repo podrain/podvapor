@@ -6,7 +6,7 @@ import { sortByDateDescending, parseFormParams, convertDateForWeb } from '../hel
 import PodcastService from '../services/podcast_service.ts'
 import EpisodeService from '../services/episode_service.ts'
 import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/add-custom-endpoint/mod.ts'
-import db from '../db.ts'
+import sql from '../db.ts'
 import settings from '../settings.ts'
  
 const adminRoutes = new Router()
@@ -61,16 +61,18 @@ const adminRoutes = new Router()
   const formParams = await parseFormParams(ctx)
   const podcast = await (new PodcastService).getPodcast(formParams.podcast_id) as any
 
-  await db.runQuery(`insert into episodes (id, title, description, notes, audio, duration, published, podcast_id) values ($1, $2, $3, $4, $5, $6, $7, $8)`, [
-    formParams.id,
-    formParams.title,
-    formParams.description,
-    formParams.notes,
-    formParams.audio,
-    formParams.duration,
-    formParams.published,
-    formParams.podcast_id
-  ])
+  const userInsert = {
+    id: formParams.id,
+    title: formParams.title,
+    description: formParams.description,
+    notes: formParams.notes,
+    audio: formParams.audio,
+    duration: formParams.duration,
+    published: formParams.published,
+    podcast_id: formParams.podcast_id
+  }
+
+  await sql`insert into episodes ${ sql(userInsert) }`
 
   ctx.response.redirect('/admin/podcasts/'+podcast.slug)
 })
@@ -80,18 +82,20 @@ const adminRoutes = new Router()
 .post('/podcasts', async (ctx) => {
   const formParams = await parseFormParams(ctx)
 
-  await db.runQuery(`insert into podcasts (id, title, slug, description, cover_image_url, categories, owner, links, author, copyright) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`, [
-    formParams.id,
-    formParams.title,
-    formParams.slug,
-    formParams.description,
-    formParams.cover_image_url,
-    JSON.stringify(formParams.categories.map(cat => cat.name)),
-    formParams.owner,
-    JSON.stringify([]),
-    formParams.author,
-    formParams.copyright
-  ])
+  const podcastInsert = {
+    id: formParams.id,
+    title: formParams.title,
+    slug: formParams.slug,
+    description: formParams.description,
+    cover_image_url: formParams.cover_image_url,
+    categories: formParams.categories.map(cat => cat.name),
+    owner: formParams.owner,
+    links: [],
+    author: formParams.author,
+    copyright: formParams.copyright
+  }
+
+  await sql`insert into podcasts ${ sql(podcastInsert) }`
 
   ctx.response.redirect('/admin/podcasts')
 })

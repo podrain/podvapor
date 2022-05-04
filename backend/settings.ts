@@ -1,10 +1,10 @@
-import db from './db.ts'
+import sql from './db.ts'
 
 export default {
   async get(key: string) {
-    const result = await db.runQuery('select * from settings where key = $1', [key]) as any
+    const result = await sql`select * from settings where key = ${key}`;
     let value = null
-    const resultRow = result.rows[0]
+    const resultRow = result[0]
 
     if (resultRow.type == 'int') {
       value = parseInt(resultRow.value)
@@ -16,10 +16,7 @@ export default {
   },
 
   async set(key: string, value: string | number) {
-    const result = await db.runQuery('update settings set value = $1 where key = $2', [
-      value,
-      key
-    ])
+    const result = await sql`update settings set value = ${value} where key = ${key}`
 
     return result ? true : false
   }
