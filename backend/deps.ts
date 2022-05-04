@@ -2,7 +2,7 @@ export {
   Application,
   Router,
   Context
-} from 'https://deno.land/x/oak@v10.2.0/mod.ts'
+} from 'https://deno.land/x/oak@v10.5.1/mod.ts'
 
 export {
   Inertia
@@ -10,5 +10,5 @@ export {
 
 export {
   Session,
-  CookieStore
-} from 'https://deno.land/x/oak_sessions@v3.2.5/mod.ts'
+  PostgresStore
+} from 'https://deno.land/x/oak_sessions@v3.3.1/mod.ts'

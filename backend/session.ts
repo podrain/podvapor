@@ -1,7 +1,9 @@
-import { Session, CookieStore } from "./deps.ts"
+import { Session, PostgresStore } from "./deps.ts"
 import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
+import sql from './db.ts'
 
-const store = new CookieStore(Deno.env.get('APP_KEY'))
+const store = new PostgresStore(sql)
+await store.initSessionsTable()
 
 const session = new Session(store)
 
