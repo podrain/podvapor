@@ -11,6 +11,9 @@ const publicRouter = new Router()
   ctx.response.body = await feed(ctx.params.slug)
 })
 .get('/:slug/episode/:episodeID', async (ctx) => {
+  ctx.response.redirect(`/${ctx.params.slug}/${ctx.params.episodeID}`)
+})
+.get('/:slug/:episodeID', async (ctx) => {
   ctx.response.body = await episode(ctx.params.slug, ctx.params.episodeID)
 })
 .get('/:slug', async (ctx) => {

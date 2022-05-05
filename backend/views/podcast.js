@@ -9,7 +9,7 @@ export default async function(slug) {
   const episodeList = episodes.sort(sortByDateDescending).map((ep, index) => {
     return /* html */`
       <div class="bg-gray-800 rounded p-4 ${ episodes.length > 1 && index !== episodes.length - 1 && 'mb-3' }">
-        <h2 class="text-teal-100 text-xl"><a class="underline" href="/${ podcast.slug }/episode/${ ep.id }">${ ep.title }</a></h2>
+        <h2 class="text-teal-100 text-xl"><a class="underline" href="/${ podcast.slug }/${ ep.id }">${ ep.title }</a></h2>
         <p class="mt-4"><em>${ convertDateForWeb(ep.published) }</em></p>
         <p class="mt-4">${ ep.description }</p>
         <div class="mt-4">
