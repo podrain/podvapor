@@ -16,11 +16,14 @@ if (Deno.env.get('DEBUG')) {
 }
 
 firstRouter
-.get('/public/(.*)', async (ctx) => {
-  const requestMimeType = mime.lookup(ctx.request.url.pathname)
-  const responseMimeType = mime.contentType(requestMimeType)
-  ctx.response.headers.set('Content-Type', responseMimeType)
-  ctx.response.body = await Deno.readTextFile(Deno.cwd() + ctx.request.url.pathname)
+.get('/public/(.*)', async (ctx, next) => {
+  try {
+    await ctx.send({
+      root: `${Deno.cwd()}`
+    })
+  } catch {
+    await next()
+  }
 })
 .get('/robots.txt', (ctx) => {
   ctx.response.body = `User-agent: *
