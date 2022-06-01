@@ -29,6 +29,15 @@ firstRouter
   ctx.response.body = `User-agent: *
 Disallow:`
 })
+.get('/favicon.ico', async (ctx, next) => {
+  try {
+    await ctx.send({
+      root: `${Deno.cwd()}/media`
+    })
+  } catch {
+    await next()
+  }
+})
 
 app.use(async (ctx, next) => {
   await next()
