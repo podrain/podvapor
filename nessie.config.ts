@@ -1,15 +1,15 @@
 
 import {
     ClientMySQL,
-    ClientCockroachDB,
     ClientSQLite,
+    ClientPostgreSQL,
     NessieConfig,
-} from "https://raw.githubusercontent.com/jcs224/deno-nessie/cockroachdb/mod.ts";
+} from "https://raw.githubusercontent.com/jcs224/deno-nessie/main/mod.ts";
 // } from "../../../github/deno-nessie/mod.ts";
 import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
 
 /** Select one of the supported clients */
-const client = new ClientCockroachDB({
+const client = new ClientPostgreSQL({
     database: Deno.env.get('DB_DATABASE'),
     hostname: Deno.env.get('DB_HOST'),
     port: Deno.env.get('DB_PORT'),

@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "nessie": "deno run -A --unstable https://raw.githubusercontent.com/jcs224/deno-nessie/main/cli.ts"
+  }
+}
