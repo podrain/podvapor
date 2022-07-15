@@ -46,7 +46,7 @@ export default async function(slug) {
                 <enclosure
                     length="${ ep.audio.length }"
                     type="${ ep.audio.type }"
-                    url="${ ep.audio.url }"
+                    url="${ Deno.env.get('DOMAIN') }/episode/${ ep.id }/audio?source=feed"
                 />
                 <itunes:duration>${ ep.duration }</itunes:duration>
                 <pubDate>${ convertTimeForFeed(ep.published) }</pubDate>
