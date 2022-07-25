@@ -5,6 +5,9 @@ import sql from './db.ts'
 const store = new PostgresStore(sql)
 await store.initSessionsTable()
 
-const session = new Session(store)
-
-export default session
+export default Session.initMiddleware(store, {
+  expireAfterSeconds: 900,
+  cookieSetOptions: {
+    sameSite: 'lax'
+  }
+})

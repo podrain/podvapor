@@ -1,6 +1,5 @@
 import { Router } from '../deps.ts'
-import inertia from '../inertia.ts'
-import session from '../session.ts'
+import SessionInertia from '../session_inertia.ts'
 import { isAuthenticated } from '../auth.ts'
 import { sortByDateDescending, parseFormParams, convertDateForWeb } from '../helpers.ts'
 import PodcastService from '../services/podcast_service.ts'
@@ -11,8 +10,7 @@ import settings from '../settings.ts'
  
 const adminRoutes = new Router()
 .use(
-  inertia.initMiddleware(), 
-  session.initMiddleware(), 
+  ...SessionInertia,
   isAuthenticated()
 )
 .get('/presigned-upload-url-images/:filename', async (ctx) => {

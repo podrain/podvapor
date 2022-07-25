@@ -1,7 +1,7 @@
 import { Inertia } from './deps.ts'
 import { manifest } from './helpers.ts'
 
-const inertia = new Inertia(`<!DOCTYPE html>
+Inertia.template = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -10,8 +10,8 @@ const inertia = new Inertia(`<!DOCTYPE html>
   <title>Podvapor Admin</title>
   ${ Deno.env.get('ENVIRONMENT') == 'local' 
   ? `
-  <script type="module" src="http://localhost:3000/@vite/client"></script>
-  <script type="module" src="http://localhost:3000/frontend/app.js"></script>
+  <script type="module" src="http://localhost:5173/@vite/client"></script>
+  <script type="module" src="http://localhost:5173/frontend/app.js"></script>
   `
   : `
   <link rel="stylesheet" href="/public/build/${ (await manifest())['frontend/app.js']['css'][0] }" />
@@ -22,6 +22,10 @@ const inertia = new Inertia(`<!DOCTYPE html>
 <body>
   @inertia
 </body>
-</html>`)
+</html>`
 
-export default inertia
+Inertia.checkVersion = () => {
+  return Deno.env.get('INERTIA_VERSION') ?? 'initial'
+}
+
+export default Inertia
