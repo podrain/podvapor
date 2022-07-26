@@ -1,4 +1,5 @@
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0'
+import { Context } from './deps.ts'
 
 export function convertTimeForFeed(time : string) {
   const newTime = DateTime.fromSQL(time).setZone('UTC', { keepLocalTime: true }).toRFC2822()
@@ -22,23 +23,24 @@ export function sortByDateDescending(a : any, b : any) {
   return 0
 }
 
-export async function parseFormParams(ctx : any) {
-  let params : Record<string, any> = {}
+export async function parseFormParams(ctx : Context) {
+  const params = new Map
 
-  if (ctx.request.hasBody) {
+  const requestBody = ctx.request.body()
 
-    const requestBody = ctx.request.body()
-
+  if (requestBody) {
     switch(requestBody.type) {
       case 'json':
         const jsonPayload = await requestBody.value
 
-        params = jsonPayload
+        for (const prop in jsonPayload) {
+          params.set(prop, jsonPayload[prop])
+        }
         break;
       case 'form':
         const formPayload = await requestBody.value
         formPayload.forEach((value : any, key : any) => {
-          params[key] = value
+          params.set(key, value)
         })
         break;
       case 'form-data':
@@ -47,7 +49,7 @@ export async function parseFormParams(ctx : any) {
         const fields = formData.fields
 
         for (const prop in fields) {
-          params[prop] = fields[prop]
+          params.set(prop, fields[prop])
         }
     }
   }

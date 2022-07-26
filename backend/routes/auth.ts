@@ -23,10 +23,10 @@ const authRoutes = new Router()
   .post('/login', async (ctx, ) => {
     const formParams = await parseFormParams(ctx)
 
-    if (formParams.email) {
-      const user = await (new UserService).getUserByEmail(formParams.email) as any
+    if (formParams.get('email')) {
+      const user = await (new UserService).getUserByEmail(formParams.get('email')) as any
       if (user) {
-        if (await bcrypt.compareSync(formParams.password, user.password)) {
+        if (await bcrypt.compareSync(formParams.get('password'), user.password)) {
           ctx.state.session.set('user_id', user.id)
           ctx.response.redirect('/admin/podcasts')
         } else {

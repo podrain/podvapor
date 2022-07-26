@@ -57,17 +57,17 @@ const adminRoutes = new Router()
 })
 .post('/podcasts/create', async (ctx) => {
   const formParams = await parseFormParams(ctx)
-  const podcast = await (new PodcastService).getPodcast(formParams.podcast_id) as any
+  const podcast = await (new PodcastService).getPodcast(formParams.get('podcast_id')) as any
 
   const userInsert = {
-    id: formParams.id,
-    title: formParams.title,
-    description: formParams.description,
-    notes: formParams.notes,
-    audio: formParams.audio,
-    duration: formParams.duration,
-    published: formParams.published,
-    podcast_id: formParams.podcast_id
+    id: formParams.get('id'),
+    title: formParams.get('title'),
+    description: formParams.get('description'),
+    notes: formParams.get('notes'),
+    audio: formParams.get('audio'),
+    duration: formParams.get('duration'),
+    published: formParams.get('published'),
+    podcast_id: formParams.get('podcast_id')
   }
 
   await sql`insert into episodes ${ sql(userInsert) }`
@@ -81,16 +81,16 @@ const adminRoutes = new Router()
   const formParams = await parseFormParams(ctx)
 
   const podcastInsert = {
-    id: formParams.id,
-    title: formParams.title,
-    slug: formParams.slug,
-    description: formParams.description,
-    cover_image_url: formParams.cover_image_url,
-    categories: formParams.categories.map(cat => cat.name),
-    owner: formParams.owner,
+    id: formParams.get('id'),
+    title: formParams.get('title'),
+    slug: formParams.get('slug'),
+    description: formParams.get('description'),
+    cover_image_url: formParams.get('cover_image_url'),
+    categories: formParams.get('categories').map(cat => cat.name),
+    owner: formParams.get('owner'),
     links: [],
-    author: formParams.author,
-    copyright: formParams.copyright
+    author: formParams.get('author'),
+    copyright: formParams.get('copyright')
   }
 
   await sql`insert into podcasts ${ sql(podcastInsert) }`
@@ -125,7 +125,7 @@ const adminRoutes = new Router()
 })
 .put('/settings', async (ctx) => {
   const formParams = await parseFormParams(ctx)
-  await settings.set('site_name', formParams.siteName)
+  await settings.set('site_name', formParams.get('siteName'))
   ctx.response.status = 303
   ctx.response.redirect('/admin/settings')
 })
