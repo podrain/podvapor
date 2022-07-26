@@ -10,28 +10,38 @@ const authRoutes = new Router()
   )
   .get('/login', 
     async (ctx, next) => {
-      if (await ctx.state.session.has('user_id')) {
+      if (ctx.state.session.has('user_id')) {
           ctx.response.redirect('/admin/podcasts')
         } else {
           ctx.state.inertia.render('login')
         }
       })
   .post('/logout', async (ctx) => {
-    await ctx.state.session.deleteSession()
+    ctx.state.session.deleteSession()
     ctx.response.redirect('/admin/login')
   })
-  .post('/login', async (ctx) => {
+  .post('/login', async (ctx, ) => {
     const formParams = await parseFormParams(ctx)
 
-    const user = await (new UserService).getUserByEmail(formParams.email) as any
-
-    if (await bcrypt.compareSync(formParams.password, user.password)) {
-      await ctx.state.session.set('user_id', user.id)
-      ctx.response.redirect('/admin/podcasts')
+    if (formParams.email) {
+      const user = await (new UserService).getUserByEmail(formParams.email) as any
+      if (user) {
+        if (await bcrypt.compareSync(formParams.password, user.password)) {
+          ctx.state.session.set('user_id', user.id)
+          ctx.response.redirect('/admin/podcasts')
+        } else {
+          ctx.state.session.flash('errors', 'Wrong email or password.')
+          ctx.response.redirect('/admin/login')
+        }
+      } else {
+        ctx.state.session.flash('errors', 'Wrong email or password.')
+        ctx.response.redirect('/admin/login')
+      }
     } else {
-      await ctx.state.session.flash('errors', 'Wrong email or password.')
+      ctx.state.session.flash('errors', 'Email required.')
       ctx.response.redirect('/admin/login')
     }
+
   })
 
 const authRouter = new Router().get('/admin', authRoutes.routes(), authRoutes.allowedMethods())
