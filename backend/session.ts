@@ -9,6 +9,5 @@ export default Session.initMiddleware(store, {
   expireAfterSeconds: 900,
   cookieSetOptions: {
     sameSite: 'lax',
-    secure: new URL(Deno.env.get('DOMAIN') ?? 'http://localhost').protocol === 'https:' ? true : false
   }
 })
