@@ -7,7 +7,7 @@ import feed from '../views/feed.js'
 import EpisodeService from '../services/episode_service.ts'
 
 const publicRouter = new Router()
-.get('/episode/:id/audio', async (ctx) => {
+.get('/episode/audio/:id.mp3', async (ctx) => {
   const audio_location = (await (new EpisodeService).getEpisode(ctx.params.id)).audio.url
   ctx.response.redirect(audio_location)
 })
