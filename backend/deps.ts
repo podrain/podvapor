@@ -11,4 +11,4 @@ export {
 export {
   Session,
   PostgresStore
-} from 'https://deno.land/x/oak_sessions@v4.0.0/mod.ts'
+} from 'https://deno.land/x/oak_sessions@v4.0.5/mod.ts'
