@@ -17,7 +17,10 @@
         <Input id="password" type="password" v-model="form.password" />
       </div>
       
-      <Button class="mt-4" type="submit">Login</Button>
+      <Button class="mt-4" type="submit" :disabled="logging_in">
+        <span v-if="logging_in">Logging in...</span>
+        <span v-else>Login</span>
+      </Button>
     </form>
   </div>
 </template>
@@ -37,7 +40,10 @@ const form = reactive({
   password: null,
 })
 
+const logging_in = ref(false)
+
 const submit = async () => {
+  logging_in.value = true
   await sodium.ready
 
   const user_details_response = await axios.post('/admin/login-meta', {
@@ -61,6 +67,10 @@ const submit = async () => {
   Inertia.post('/admin/login', {
     email: form.email,
     password_hash: password_hashed
+  }, {
+    onFinish: (page) => {
+      logging_in.value = false
+    }
   })
 }
 </script>
