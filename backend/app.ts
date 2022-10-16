@@ -1,5 +1,5 @@
 import { Application, Router } from './deps.ts'
-import 'https://deno.land/x/dotenv@v3.2.0/load.ts'
+import 'https://deno.land/std@0.159.0/dotenv/load.ts';
 
 import adminRouter from './routes/admin.ts'
 import authRouter from './routes/auth.ts'

@@ -25,6 +25,10 @@ jobs:
       - name: Delete node_modules
         run: rm -rf node_modules
 
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        run: deno task nessie migrate
+
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:

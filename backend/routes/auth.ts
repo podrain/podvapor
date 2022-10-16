@@ -1,13 +1,30 @@
 import { Router } from '../deps.ts'
 import { parseFormParams } from '../helpers.ts'
 import UserService from '../services/user_service.ts'
-import * as bcrypt from 'https://deno.land/x/bcrypt@v0.3.0/mod.ts'
 import SessionInertia from '../session_inertia.ts'
+import sodium from 'https://esm.sh/libsodium-wrappers@0.7.10'
 
 const authRoutes = new Router()
   .use(
     ...SessionInertia
   )
+  .post('/login-meta', async (ctx) => {
+    const formParams = await parseFormParams(ctx)
+
+    if (formParams.get('email')) {
+      const user = await (new UserService).getUserByEmail(formParams.get('email')) as any
+
+      if (user) {
+        ctx.response.body = {
+          salt: user.password_salt,
+        }
+      } else {
+        ctx.response.body = {
+          salt: sodium.to_base64(sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES))
+        }
+      }
+    }
+  })
   .get('/login', 
     async (ctx, next) => {
       if (ctx.state.session.has('user_id')) {
@@ -26,7 +43,7 @@ const authRoutes = new Router()
     if (formParams.get('email')) {
       const user = await (new UserService).getUserByEmail(formParams.get('email')) as any
       if (user) {
-        if (await bcrypt.compareSync(formParams.get('password'), user.password)) {
+        if (formParams.get('password_hash') == user.password) {
           ctx.state.session.set('user_id', user.id)
           ctx.response.redirect('/admin/podcasts')
         } else {

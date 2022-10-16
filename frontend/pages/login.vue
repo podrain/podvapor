@@ -23,8 +23,10 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
+import sodium from 'libsodium-wrappers' 
+import axios from 'axios'
 
 const props = defineProps({
   errors: String
@@ -35,7 +37,30 @@ const form = reactive({
   password: null,
 })
 
-const submit = () => {
-  Inertia.post('/admin/login', form)
+const submit = async () => {
+  await sodium.ready
+
+  const user_details_response = await axios.post('/admin/login-meta', {
+    email: form.email
+  })
+
+  const user_details = user_details_response.data
+
+  const salt_bytes = sodium.from_base64(user_details.salt)
+
+  const password_hashed = sodium.crypto_pwhash(
+    sodium.crypto_box_SEEDBYTES, 
+    form.password, 
+    salt_bytes, 
+    sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE, 
+    sodium.crypto_pwhash_MEMLIMIT_INTERACTIVE,
+    sodium.crypto_pwhash_ALG_DEFAULT,
+    'base64'
+  )
+
+  Inertia.post('/admin/login', {
+    email: form.email,
+    password_hash: password_hashed
+  })
 }
 </script>
