@@ -27,6 +27,8 @@ jobs:
 
       - name: Setup Deno
         uses: denoland/setup-deno@v1
+
+      - name: Run database migrations
         run: deno task nessie migrate
 
       - name: Upload to Deno Deploy
