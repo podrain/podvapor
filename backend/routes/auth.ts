@@ -2,7 +2,6 @@ import { Router } from '../deps.ts'
 import { parseFormParams } from '../helpers.ts'
 import UserService from '../services/user_service.ts'
 import SessionInertia from '../session_inertia.ts'
-import sodium from 'https://esm.sh/libsodium-wrappers@0.7.10'
 
 const authRoutes = new Router()
   .use(
@@ -17,10 +16,6 @@ const authRoutes = new Router()
       if (user) {
         ctx.response.body = {
           salt: user.password_salt,
-        }
-      } else {
-        ctx.response.body = {
-          salt: sodium.to_base64(sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES))
         }
       }
     }
