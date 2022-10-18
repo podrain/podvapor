@@ -2,6 +2,7 @@ import { Router } from '../deps.ts'
 import { parseFormParams } from '../helpers.ts'
 import UserService from '../services/user_service.ts'
 import SessionInertia from '../session_inertia.ts'
+import { encode } from 'https://deno.land/std@0.160.0/encoding/base64url.ts'
 
 const authRoutes = new Router()
   .use(
@@ -13,10 +14,8 @@ const authRoutes = new Router()
     if (formParams.get('email')) {
       const user = await (new UserService).getUserByEmail(formParams.get('email')) as any
 
-      if (user) {
-        ctx.response.body = {
-          salt: user.password_salt,
-        }
+      ctx.response.body = {
+        salt: user ? user.password_salt : encode(crypto.getRandomValues(new Uint8Array(16)))
       }
     }
   })
