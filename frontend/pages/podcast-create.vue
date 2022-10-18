@@ -67,7 +67,7 @@ import { Inertia } from '@inertiajs/inertia'
 import { Link } from '@inertiajs/inertia-vue3'
 import { reactive, ref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
-import axios from 'axios'
+import axios from '../axios'
 
 const form = reactive({
   id: uuidv4(),

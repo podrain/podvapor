@@ -29,7 +29,7 @@
 import { reactive, ref } from 'vue'
 import { Inertia } from '@inertiajs/inertia'
 import sodium from 'libsodium-wrappers' 
-import axios from 'axios'
+import axios from '../axios'
 
 const props = defineProps({
   errors: String

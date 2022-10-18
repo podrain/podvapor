@@ -94,7 +94,7 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { v4 as uuidv4 } from 'uuid'
 import { DateTime } from 'luxon'
-import axios from 'axios'
+import axios from '../axios'
 import ID3Writer from 'browser-id3-writer'
 import { LoudnessMeter } from '@domchristie/needles'
 
