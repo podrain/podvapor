@@ -4,7 +4,7 @@ export default {
   plugins: [
     vue()
   ],
-  base: '/public/build/',
+  base: '/public/',
   build: {
     manifest: true,
     outDir: 'public/build',

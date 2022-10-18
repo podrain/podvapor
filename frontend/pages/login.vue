@@ -43,6 +43,10 @@ const form = reactive({
 const logging_in = ref(false)
 
 const submit = async () => {
+  const login_worker = new Worker(new URL('/login_worker.js', import.meta.url), {
+    type: 'module'
+  })
+
   logging_in.value = true
   await sodium.ready
 
@@ -52,25 +56,21 @@ const submit = async () => {
 
   const user_details = user_details_response.data
 
-  const salt_bytes = sodium.from_base64(user_details.salt)
-
-  const password_hashed = sodium.crypto_pwhash(
-    sodium.crypto_box_SEEDBYTES, 
-    form.password, 
-    salt_bytes, 
-    sodium.crypto_pwhash_OPSLIMIT_INTERACTIVE, 
-    sodium.crypto_pwhash_MEMLIMIT_INTERACTIVE,
-    sodium.crypto_pwhash_ALG_DEFAULT,
-    'base64'
-  )
-
-  Inertia.post('/admin/login', {
-    email: form.email,
-    password_hash: password_hashed
-  }, {
-    onFinish: (page) => {
-      logging_in.value = false
-    }
+  login_worker.postMessage({
+    password: form.password,
+    salt_base64: user_details.salt,
   })
+
+  login_worker.onmessage = (e) => {
+    Inertia.post('/admin/login', {
+      email: form.email,
+      password_hash: e.data
+    }, {
+      onFinish: (page) => {
+        logging_in.value = false
+        login_worker.terminate()
+      }
+    })
+  }
 }
 </script>
