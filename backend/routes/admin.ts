@@ -4,7 +4,7 @@ import { isAuthenticated } from '../auth.ts'
 import { sortByDateDescending, parseFormParams, convertDateForWeb } from '../helpers.ts'
 import PodcastService from '../services/podcast_service.ts'
 import EpisodeService from '../services/episode_service.ts'
-import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/add-custom-endpoint/mod.ts'
+import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/trunk/mod.ts'
 import sql from '../db.ts'
 import settings from '../settings.ts'
  
