@@ -11,4 +11,8 @@ export {
 export {
   Session,
   PostgresStore
-} from 'https://deno.land/x/oak_sessions@v4.0.5/mod.ts'
+} from 'https://raw.githubusercontent.com/jcs224/oak_sessions/encrypt-session-key/mod.ts'
+
+export {
+  createKeyFromBase64
+} from 'https://raw.githubusercontent.com/jcs224/oak_sessions/encrypt-session-key/src/crypto.ts'
