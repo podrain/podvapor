@@ -1,7 +1,7 @@
 import { Inertia } from './deps.ts'
 import { manifest } from './helpers.ts'
 
-Inertia.template = `<!DOCTYPE html>
+export const template = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -24,8 +24,8 @@ Inertia.template = `<!DOCTYPE html>
 </body>
 </html>`
 
-Inertia.checkVersion = () => {
+export const checkVersion = () => {
   return Deno.env.get('INERTIA_VERSION') ?? 'initial'
 }
 
-export default Inertia
+export { Inertia }

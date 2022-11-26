@@ -1,12 +1,12 @@
 import Session from './session.ts'
-import Inertia from './inertia.ts'
+import { Inertia, template, checkVersion } from './inertia.ts'
 import { Context } from './deps.ts' 
 import { nanoid } from 'https://esm.sh/nanoid@4.0.0/async'
 import { parseFormParams } from './helpers.ts'
 
 export default [
   Session,
-  Inertia.initMiddleware(),
+  Inertia.initMiddleware(template, checkVersion),
   async (ctx: Context, next: () => Promise<unknown>) => {
     const form_params = await parseFormParams(ctx)
     const csrf_token = form_params.get('_csrf_token')
