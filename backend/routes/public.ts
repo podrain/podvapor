@@ -5,11 +5,16 @@ import podcast from '../views/podcast.js'
 import episode from '../views/episode.js'
 import feed from '../views/feed.js'
 import EpisodeService from '../services/episode_service.ts'
+import PodcastService from '../services/podcast_service.ts'
 
 const publicRouter = new Router()
 .get('/episode/audio/:id.mp3', async (ctx) => {
   const audio_location = (await (new EpisodeService).getEpisode(ctx.params.id)).audio.url
   ctx.response.redirect(audio_location)
+})
+.get('/podcast/image/:id.(png|jpg|jpeg)', async (ctx, next) => {
+  const podcast_image_location = (await (new PodcastService).getPodcast(ctx.params.id)).cover_image_url
+  ctx.response.redirect(podcast_image_location)
 })
 .get('/:slug/feed', async (ctx) => {
   ctx.response.headers.set('Content-Type', 'application/xml')

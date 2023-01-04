@@ -12,7 +12,7 @@ export default async function(slug) {
             <description>${ podcast.description }</description>
             <language>en-us</language>
             <itunes:summary>${ podcast.description }</itunes:summary>
-            <itunes:image href="${ podcast.cover_image_url }" />
+            <itunes:image href="${ Deno.env.get('DOMAIN') }/podcast/image/${ podcast.id }.png" />
             <link>${ Deno.env.get('DOMAIN') }/${ podcast.slug }</link>
 
             ${ podcast.categories.map(ct => {
