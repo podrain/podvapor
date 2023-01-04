@@ -208,7 +208,7 @@ const submitEpisode = async () => {
     audio: {
       length: audioFileSize,
       type: 'audio/mpeg',
-      url: uploadURL.split('?')[0]
+      url: '/episode_audio_files/' + newFilename
     },
     duration: Math.ceil(audioData.duration),
     published: now.toFormat('yyyy-LL-dd HH:mm:ss'),

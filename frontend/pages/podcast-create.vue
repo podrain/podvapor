@@ -125,7 +125,7 @@ const submitPodcast = async () => {
     }
   })
 
-  form.cover_image_url = uploadURL.split('?')[0]
+  form.cover_image_url = '/images/'+newFilename
 
   Inertia.post('/admin/podcasts', form)
 }

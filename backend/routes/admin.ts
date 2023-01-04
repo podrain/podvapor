@@ -70,6 +70,8 @@ const adminRoutes = new Router()
     podcast_id: formParams.get('podcast_id')
   }
 
+  userInsert.audio.url = Deno.env.get('S3_PUBLIC_URL') + userInsert.audio.url
+
   await sql`insert into episodes ${ sql(userInsert) }`
 
   ctx.response.redirect('/admin/podcasts/'+podcast.slug)
@@ -85,7 +87,7 @@ const adminRoutes = new Router()
     title: formParams.get('title'),
     slug: formParams.get('slug'),
     description: formParams.get('description'),
-    cover_image_url: formParams.get('cover_image_url'),
+    cover_image_url: Deno.env.get('S3_PUBLIC_URL') + formParams.get('cover_image_url'),
     categories: formParams.get('categories').map(cat => cat.name),
     owner: formParams.get('owner'),
     links: [],
