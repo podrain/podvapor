@@ -88,8 +88,7 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import { Link } from '@inertiajs/inertia-vue3'
-import { Inertia } from '@inertiajs/inertia'
+import { router, Link } from '@inertiajs/vue3'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { v4 as uuidv4 } from 'uuid'
@@ -200,7 +199,7 @@ const submitEpisode = async () => {
   const audioData = await audioContext.decodeAudioData(writer.arrayBuffer)
 
   submittingText.value = 'Saving to database...'
-  Inertia.post('/admin/podcasts/create', {
+  router.post('/admin/podcasts/create', {
     id: uuid,
     title: form.title,
     description: form.description,

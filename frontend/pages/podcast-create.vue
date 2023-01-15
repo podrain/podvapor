@@ -63,8 +63,7 @@
 </template>
 
 <script setup>
-import { Inertia } from '@inertiajs/inertia'
-import { Link } from '@inertiajs/inertia-vue3'
+import { router } from '@inertiajs/vue3'
 import { reactive, ref } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import axios from '../axios'
@@ -127,7 +126,7 @@ const submitPodcast = async () => {
 
   form.cover_image_url = '/images/'+newFilename
 
-  Inertia.post('/admin/podcasts', form)
+  router.post('/admin/podcasts', form)
 }
 
 </script>

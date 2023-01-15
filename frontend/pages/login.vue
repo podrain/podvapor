@@ -27,7 +27,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { Inertia } from '@inertiajs/inertia'
+import { router } from '@inertiajs/vue3'
 import sodium from 'libsodium-wrappers' 
 import axios from '../axios'
 
@@ -64,7 +64,7 @@ const submit = async () => {
     'base64'
   )
 
-  Inertia.post('/admin/login', {
+  router.post('/admin/login', {
     email: form.email,
     password_hash: password_hashed
   }, {

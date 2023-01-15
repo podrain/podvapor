@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-  import { Inertia } from '@inertiajs/inertia'
+  import { router } from '@inertiajs/vue3'
   import { reactive } from 'vue'
 
   const props = defineProps({
@@ -24,7 +24,7 @@
   })
 
   const submit = () => {
-    Inertia.put('/admin/settings', form)
+    router.put('/admin/settings', form)
   }
 </script>
 
