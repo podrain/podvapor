@@ -31,7 +31,9 @@ const authRoutes = new Router()
     ctx.state.session.deleteSession()
     ctx.response.redirect('/admin/login')
   })
-  .post('/login', async (ctx, ) => {
+  .post('/login', async (ctx, next) => {
+    ctx.state.rotate_session_key = true
+
     const formParams = await parseFormParams(ctx)
 
     if (formParams.get('email')) {
