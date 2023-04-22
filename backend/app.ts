@@ -43,5 +43,5 @@ app.use(authRouter.routes(), authRouter.allowedMethods())
 app.use(adminRouter.routes(), adminRouter.allowedMethods())
 app.use(publicRouter.routes(), publicRouter.allowedMethods())
 
-app.listen({ port: 3001, secure: true })
+app.listen({ port: 3001 })
 console.log('server running')
