@@ -4,7 +4,7 @@
 
 Podvapor is a tool for hosting your podcast on the Deno Deploy™ serverless platform. The goal is to give podcasters the benefit of full control of their podcast feed, without many of the drawbacks of maintaining the feed themselves. 
 
-However, it's also possible to host it on your own infrastructure. None of the code is proprietary and can be hosting on the Deno CLI platform.
+However, it's also possible to host it on your own infrastructure. None of the code is proprietary and can be hosting on the Deno CLI platform. Data is stored in [Deno KV](https://deno.com/kv).
 
 [Deploy your podcast!](https://dash.deno.com/projects/podvapor/deploy)
 
@@ -15,43 +15,11 @@ However, it's also possible to host it on your own infrastructure. None of the c
 
 ## Requirements
 
-- CockroachDB database
 - Episode audio files with length, filetype, and duration metadata
+- S3-compatible storage provider (Amazon S3, Cloudflare R2, DigitalOcean Spaces, etc.)
 - Deno Deploy™ environment variables
 
 For now, Podvapor only provides hosting for your podcast feed. It doesn't create or host your audio files, or their associated metadata required by podcast feeds. That is still up to you. There may be more guidance on how to do this in the future.
-
-### CockroachDB database
-
-This guidance is not complete, more directions will be added soon. In the meantime, here is the CockroachDB create table commands.
-
-```sql
-# Create podcasts table
-create table podcasts (
-  id uuid default uuid_v4()::UUID primary key,
-  title string,
-  slug string,
-  description string,
-  cover_image_url string,
-  categories jsonb,
-  owner jsonb,
-  links jsonb,
-  author string,
-  copyright string
-)
-
-# Create episodes table
-create table episodes (
-  id uuid default uuid_v4()::UUID primary key,
-  podcast_id uuid references podcasts (id) on delete cascade,
-  title string,
-  description string,
-  notes string,
-  audio jsonb,
-  duration int4,
-  published string
-)
-```
 
 ### Episode audio files
 
