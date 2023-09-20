@@ -4,7 +4,6 @@ node_modules
 .vscode
 podcasts.json
 database.db
-cockroach-data
 public/build/*
 !public/build/.gitkeep
 .env.prod
