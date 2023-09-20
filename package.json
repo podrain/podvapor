@@ -20,7 +20,7 @@
 		"vue": "^3.2.30"
 	},
 	"scripts": {
-		"start-server": "deno run -A --watch --no-check backend/app.ts",
+		"start-server": "deno run -A --watch --no-check --unstable backend/app.ts",
 		"start-db": "cockroach start-single-node --insecure --http-addr=:8081 --store=./db/cockroach-data",
 		"start-vite": "pnpx vite",
 		"build-prod-assets": "pnpx vite build"

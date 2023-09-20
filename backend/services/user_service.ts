@@ -1,12 +1,11 @@
-
-import sql from '../db.ts'
+import kv from '../kv.ts'
 
 export default class UserService {
   async getUserByEmail(email : string) {
-    const result = await sql`select * from users where email = ${email}`
+    const result = await kv.get(['users_by_email', email])
 
-    if (result.length > 0) {
-      const user = result[0]
+    if (result.value) {
+      const user = result.value
       return user
     } else {
       return null

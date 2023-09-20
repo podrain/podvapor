@@ -10,7 +10,7 @@ export {
 
 export {
   Session,
-  PostgresStore
+  CookieStore,
 } from 'https://raw.githubusercontent.com/jcs224/oak_sessions/encrypt-session-key/mod.ts'
 
 export {

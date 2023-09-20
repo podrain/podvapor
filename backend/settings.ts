@@ -1,23 +1,26 @@
-import sql from './db.ts'
+import kv from './kv.ts'
 
 export default {
   async get(key: string) {
-    const result = await sql`select * from settings where key = ${key}`;
     let value = null
-    const resultRow = result[0]
 
-    if (resultRow.type == 'int') {
-      value = parseInt(resultRow.value)
-    } else {
-      value = resultRow.value
+    const result = await kv.get(['settings', key])
+
+    if (result) {
+      if (result.value.type == 'int') {
+        value = parseInt(result.value.value)
+      } else {
+        value = result.value.value
+      }
     }
 
     return value
   },
 
   async set(key: string, value: string | number) {
-    const result = await sql`update settings set value = ${value} where key = ${key}`
-
+    const setting = (await kv.get(['settings', key])).value
+    setting.value = value
+    const result = await kv.set(['settings', key], setting)
     return result ? true : false
   }
 }

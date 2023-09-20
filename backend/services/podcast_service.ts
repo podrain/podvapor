@@ -1,27 +1,31 @@
-import sql from '../db.ts'
+import kv from '../kv.ts'
 
 export default class PodcastService {
   async getPodcasts() {
-    const result = await sql`select * from podcasts`
-    let podcasts = result
+    const iter = await kv.list({ prefix: ['podcasts'] })
+    let podcasts = []
+
+    for await (const res of iter) podcasts.push(res.value)
+
     return podcasts
   }
 
   async getPodcastBySlug(slug : string) {
-    const result = await sql`select * from podcasts where slug = ${slug}`
-    const podcast = result[0]
+    const podcast = (await kv.get(['podcasts_by_slug', slug])).value
     return podcast
   }
   
   async getPodcast(id : string) {
-    const result = await sql`select * from podcasts where id = ${id}`
-    const podcast = result[0]
+    const podcast = (await kv.get(['podcasts', id])).value
     return podcast
   }
 
   async getEpisodes(podcastID : string) {
-    const result = await sql`select * from episodes where podcast_id = ${podcastID}`
-    const episodes = result
+    const iter = await kv.list({ prefix: ['episodes_by_podcast_id', podcastID]})
+    const episodes = []
+
+    for await (const res of iter) episodes.push(res.value)
+
     return episodes
   }
 }

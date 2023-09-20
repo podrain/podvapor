@@ -5,9 +5,9 @@ import { sortByDateDescending, parseFormParams, convertDateForWeb } from '../hel
 import PodcastService from '../services/podcast_service.ts'
 import EpisodeService from '../services/episode_service.ts'
 import { getSignedUrl } from 'https://raw.githubusercontent.com/jcs224/aws_s3_presign/trunk/mod.ts'
-import sql from '../db.ts'
 import settings from '../settings.ts'
- 
+import kv from '../kv.ts'
+
 const adminRoutes = new Router()
 .use(
   ...SessionInertia,
@@ -72,7 +72,10 @@ const adminRoutes = new Router()
 
   userInsert.audio.url = Deno.env.get('S3_PUBLIC_URL') + userInsert.audio.url
 
-  await sql`insert into episodes ${ sql(userInsert) }`
+  await kv.atomic()
+    .set(['episodes', userInsert.id], userInsert)
+    .set(['episodes_by_podcast_id', userInsert.podcast_id, userInsert.id], userInsert)
+    .commit()
 
   ctx.response.redirect('/admin/podcasts/'+podcast.slug)
 })
@@ -95,7 +98,10 @@ const adminRoutes = new Router()
     copyright: formParams.get('copyright')
   }
 
-  await sql`insert into podcasts ${ sql(podcastInsert) }`
+  await kv.atomic()
+    .set(['podcasts', podcastInsert.id], podcastInsert)
+    .set(['podcasts_by_slug', podcastInsert.slug], podcastInsert)
+    .commit()
 
   ctx.response.redirect('/admin/podcasts')
 })

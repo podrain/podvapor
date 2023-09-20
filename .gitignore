@@ -8,3 +8,6 @@ cockroach-data
 public/build/*
 !public/build/.gitkeep
 .env.prod
+/kv
+/tmp/*
+!tmp/.gitkeep

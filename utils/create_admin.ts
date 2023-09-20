@@ -1,5 +1,5 @@
 import sodium from 'https://esm.sh/libsodium-wrappers@0.7.10'
-import sql from '../backend/db.ts'
+import kv from '../backend/kv.ts'
 
 await sodium.ready
 
@@ -15,11 +15,14 @@ const pw_hash = sodium.crypto_pwhash(
   'base64'
 )
 
-await sql`insert into users ${ sql({
+const user = {
+  id: crypto.randomUUID(),
   email: Deno.args[0],
   password: pw_hash,
   password_salt: sodium.to_base64(salt_bytes)
-}) }`
+}
+
+await kv.atomic().set(['users', user.id], user).set(['users_by_email', user.email], user).commit()
 
 console.log('inserted admin user '+Deno.args[0])
 
